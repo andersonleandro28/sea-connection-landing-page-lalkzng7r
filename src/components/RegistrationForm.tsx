@@ -66,10 +66,20 @@ export function RegistrationForm() {
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setIsLoading(false)
-    setIsSuccess(true)
+    try {
+      const { submitPreCadastro } = await import('@/services/pre-cadastro')
+      const result = await submitPreCadastro(data)
+      if (result.error) throw result.error
+      setIsSuccess(true)
+    } catch (error) {
+      toast({
+        title: 'Erro ao enviar formulário',
+        description: 'Verifique sua conexão ou tente novamente mais tarde.',
+        variant: 'destructive',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleTypeChange = (value: 'PF' | 'PJ') => {
