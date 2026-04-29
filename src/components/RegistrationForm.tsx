@@ -1,21 +1,21 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Form } from '@/components/ui/form'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { Card, CardContent } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import { isValidCPF, isValidCNPJ } from '@/lib/validators'
 import { PFFields } from './forms/PFFields'
 import { PJFields } from './forms/PJFields'
+import { cn } from '@/lib/utils'
 
 const baseSchema = {
   email: z.string().email('Email inválido'),
   telefone: z.string().min(14, 'Telefone incompleto'),
   comprovanteEndereco: z.any().refine((val) => val != null, 'Obrigatório'),
+  aceitarTermos: z.boolean().refine((val) => val === true, 'Você deve aceitar os termos'),
 }
 
 const pfSchema = z.object({
@@ -57,6 +57,7 @@ export function RegistrationForm() {
       email: '',
       telefone: '',
       renda: '',
+      aceitarTermos: false,
     } as any,
     mode: 'onChange',
   })
@@ -69,15 +70,11 @@ export function RegistrationForm() {
     await new Promise((resolve) => setTimeout(resolve, 1500))
     setIsLoading(false)
     setIsSuccess(true)
-    toast({
-      title: 'Sucesso!',
-      description: 'Seu pré-cadastro foi enviado com sucesso.',
-    })
   }
 
-  const handleTypeChange = (value: string) => {
+  const handleTypeChange = (value: 'PF' | 'PJ') => {
     if (value && value !== formType) {
-      form.reset({ type: value as 'PF' | 'PJ' } as any)
+      form.reset({ type: value } as any)
     }
   }
 
@@ -89,19 +86,27 @@ export function RegistrationForm() {
 
   if (isSuccess) {
     return (
-      <Card className="w-full max-w-2xl mx-auto border-none shadow-xl bg-white animate-fade-in">
-        <CardContent className="flex flex-col items-center text-center p-12 space-y-6">
-          <div className="h-24 w-24 bg-green-50 rounded-full flex items-center justify-center">
-            <CheckCircle2 className="h-12 w-12 text-green-500" />
+      <Card
+        className="w-full max-w-2xl mx-auto border-none shadow-xl bg-white animate-slide-up opacity-0"
+        style={{ animationFillMode: 'forwards' }}
+      >
+        <CardContent className="flex flex-col items-center text-center p-[40px] md:p-[80px] space-y-6">
+          <div className="h-24 w-24 bg-[#48BB78]/10 rounded-full flex items-center justify-center">
+            <CheckCircle2 className="h-12 w-12 text-[#48BB78]" />
           </div>
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-sea-navy">Pré-cadastro recebido com sucesso!</h2>
-            <p className="text-slate-500 max-w-md mx-auto">
+            <h2 className="text-[32px] font-bold text-[#1A3A52]">
+              Pré-cadastro recebido com sucesso!
+            </h2>
+            <p className="text-[16px] text-[#333333] max-w-md mx-auto">
               Obrigado por se cadastrar. Nossa equipe analisará seus dados e entrará em contato em
               até 24 horas via email ou WhatsApp.
             </p>
           </div>
-          <Button onClick={resetForm} className="bg-sea-cyan hover:bg-cyan-500 mt-4 h-12 px-8">
+          <Button
+            onClick={resetForm}
+            className="bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white hover:shadow-lg mt-4 h-[48px] px-[32px] rounded-[8px] transition-all hover:scale-105"
+          >
             Voltar para home
           </Button>
         </CardContent>
@@ -112,50 +117,56 @@ export function RegistrationForm() {
   return (
     <Card
       id="cadastro"
-      className="w-full max-w-4xl mx-auto shadow-xl border-slate-100 bg-white scroll-mt-24"
+      className="w-full max-w-4xl mx-auto shadow-xl border-slate-100 bg-white scroll-mt-24 px-[30px] py-[40px] md:px-[60px] md:py-[80px]"
     >
-      <CardHeader className="text-center pb-8 border-b border-slate-100">
-        <CardTitle className="text-3xl font-bold text-sea-navy">
+      <div className="text-center pb-8">
+        <h2 className="text-[32px] font-bold text-[#1A3A52]">
           Comece sua jornada com Sea Connection
-        </CardTitle>
-        <CardDescription className="text-base text-slate-500 mt-2">
+        </h2>
+        <p className="text-[16px] text-[#333333] mt-2">
           Preencha o formulário abaixo. Nossa equipe fará a análise e entrará em contato em até 24
           horas.
-        </CardDescription>
+        </p>
 
-        <div className="pt-6">
-          <ToggleGroup
-            type="single"
-            value={formType}
-            onValueChange={handleTypeChange}
-            className="inline-flex bg-slate-100 p-1 rounded-lg"
-          >
-            <ToggleGroupItem
-              value="PF"
-              className="px-8 data-[state=on]:bg-white data-[state=on]:shadow-sm data-[state=on]:text-sea-cyan rounded-md"
+        <div className="pt-8 flex justify-center">
+          <div className="inline-flex bg-[#F5F5F5] p-[4px] rounded-[8px] h-[44px]">
+            <button
+              type="button"
+              onClick={() => handleTypeChange('PF')}
+              className={cn(
+                'px-8 text-[14px] font-bold rounded-[8px] transition-all duration-200',
+                formType === 'PF'
+                  ? 'bg-[#00B4D8] text-white shadow-sm'
+                  : 'bg-transparent text-[#999999] hover:text-[#333333]',
+              )}
             >
               Pessoa Física
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="PJ"
-              className="px-8 data-[state=on]:bg-white data-[state=on]:shadow-sm data-[state=on]:text-sea-cyan rounded-md"
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTypeChange('PJ')}
+              className={cn(
+                'px-8 text-[14px] font-bold rounded-[8px] transition-all duration-200',
+                formType === 'PJ'
+                  ? 'bg-[#00B4D8] text-white shadow-sm'
+                  : 'bg-transparent text-[#999999] hover:text-[#333333]',
+              )}
             >
               Pessoa Jurídica
-            </ToggleGroupItem>
-          </ToggleGroup>
+            </button>
+          </div>
         </div>
-      </CardHeader>
+      </div>
 
-      <CardContent className="p-6 md:p-8">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <div className="pt-8">
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-[24px]">
             {formType === 'PF' ? <PFFields /> : <PJFields />}
 
-            <div className="pt-6 border-t border-slate-100 flex justify-end">
+            <div className="pt-8 border-t border-[#E0E0E0] flex justify-end">
               <Button
                 type="submit"
-                size="lg"
-                className="w-full md:w-auto bg-sea-navy hover:bg-sea-navy/90 h-14 px-10 text-lg transition-all"
+                className="w-full md:w-auto bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white h-[48px] px-[32px] rounded-[8px] transition-all hover:shadow-lg hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none font-bold"
                 disabled={!form.formState.isValid || isLoading}
               >
                 {isLoading ? (
@@ -169,8 +180,8 @@ export function RegistrationForm() {
               </Button>
             </div>
           </form>
-        </Form>
-      </CardContent>
+        </FormProvider>
+      </div>
     </Card>
   )
 }

@@ -9,6 +9,7 @@ interface FileUploadProps {
   accept?: string
   maxSize?: number // in MB
   label?: string
+  isError?: boolean
 }
 
 export function FileUpload({
@@ -17,6 +18,7 @@ export function FileUpload({
   accept = '.pdf,.jpg,.jpeg,.png',
   maxSize = 5,
   label,
+  isError = false,
 }: FileUploadProps) {
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -66,14 +68,16 @@ export function FileUpload({
 
   return (
     <div className="space-y-2">
-      {label && <p className="text-sm text-slate-500 mb-2">{label}</p>}
+      {label && <p className="text-[12px] text-[#999999] mb-2">{label}</p>}
 
       {!value ? (
         <div
           className={cn(
-            'relative border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-slate-50',
-            dragActive ? 'border-sea-cyan bg-sea-cyan/5' : 'border-slate-300 hover:bg-slate-100',
-            error && 'border-red-400 bg-red-50',
+            'relative border-2 border-dashed rounded-[8px] p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors',
+            dragActive
+              ? 'border-[#00B4D8] bg-[#00B4D8]/10'
+              : 'border-[#00B4D8] bg-[#00B4D8]/5 hover:bg-[#00B4D8]/10',
+            (isError || error) && 'border-[#E53E3E] bg-[#E53E3E]/5 hover:bg-[#E53E3E]/10',
           )}
           onDragOver={(e) => {
             e.preventDefault()
@@ -90,31 +94,41 @@ export function FileUpload({
             accept={accept}
             onChange={(e) => handleFiles(e.target.files)}
           />
-          <UploadCloud className="h-8 w-8 text-slate-400 mb-2" />
-          <p className="text-sm font-medium text-slate-700">
+          <UploadCloud
+            className={cn(
+              'h-[48px] w-[48px] mb-2 transition-colors',
+              isError || error ? 'text-[#E53E3E]' : 'text-[#00B4D8]',
+            )}
+          />
+          <p className="text-[14px] font-medium text-[#333333]">
             Clique para selecionar ou arraste o arquivo
           </p>
-          <p className="text-xs text-slate-500 mt-1">PDF, JPG ou PNG (Max {maxSize}MB)</p>
-          {error && <p className="text-xs text-red-500 mt-2 font-medium">{error}</p>}
+          <p className="text-[12px] text-[#999999] mt-1">PDF, JPG ou PNG (Max {maxSize}MB)</p>
+          {error && <p className="text-[12px] text-[#E53E3E] mt-2 font-medium">{error}</p>}
         </div>
       ) : (
-        <div className="border border-slate-200 rounded-lg p-4 bg-white shadow-sm flex flex-col gap-3 animate-slide-up">
+        <div
+          className="border border-[#E0E0E0] rounded-[8px] p-4 bg-white shadow-sm flex flex-col gap-3 animate-fade-in opacity-0"
+          style={{ animationFillMode: 'forwards' }}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 overflow-hidden">
-              <div className="p-2 bg-sea-cyan/10 rounded text-sea-cyan shrink-0">
+              <div className="p-2 bg-[#00B4D8]/10 rounded text-[#00B4D8] shrink-0">
                 <File className="h-5 w-5" />
               </div>
               <div className="truncate">
-                <p className="text-sm font-medium text-slate-700 truncate">{value.name}</p>
-                <p className="text-xs text-slate-500">{(value.size / 1024 / 1024).toFixed(2)} MB</p>
+                <p className="text-[14px] font-medium text-[#333333] truncate">{value.name}</p>
+                <p className="text-[12px] text-[#999999]">
+                  {(value.size / 1024 / 1024).toFixed(2)} MB
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              {progress === 100 && <CheckCircle2 className="h-5 w-5 text-green-500" />}
+              {progress === 100 && <CheckCircle2 className="h-5 w-5 text-[#48BB78]" />}
               <button
                 type="button"
                 onClick={handleRemove}
-                className="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-red-500 transition-colors"
+                className="p-1 hover:bg-[#F5F5F5] rounded text-[#999999] hover:text-[#E53E3E] transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
