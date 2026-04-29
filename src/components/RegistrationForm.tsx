@@ -113,10 +113,7 @@ export function RegistrationForm() {
               até 24 horas via email ou WhatsApp.
             </p>
           </div>
-          <Button
-            onClick={resetForm}
-            className="bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white hover:shadow-lg mt-4 h-[48px] px-[32px] rounded-[8px] transition-all hover:scale-105"
-          >
+          <Button onClick={resetForm} className="mt-[24px]">
             Voltar para home
           </Button>
         </CardContent>
@@ -127,13 +124,11 @@ export function RegistrationForm() {
   return (
     <Card
       id="cadastro"
-      className="w-full max-w-4xl mx-auto shadow-xl border-slate-100 bg-white scroll-mt-24 px-[30px] py-[40px] md:px-[60px] md:py-[80px]"
+      className="w-full max-w-4xl mx-auto shadow-medium border-[#E0E0E0] bg-[#FFFFFF] scroll-mt-24 px-[24px] py-[40px] md:p-[64px]"
     >
-      <div className="text-center pb-8">
-        <h2 className="text-[32px] font-bold text-[#1A3A52]">
-          Comece sua jornada com Sea Connection
-        </h2>
-        <p className="text-[16px] text-[#333333] mt-2">
+      <div className="text-center pb-[32px]">
+        <h2 className="h2 mb-[8px]">Comece sua jornada com Sea Connection</h2>
+        <p className="p-body max-w-xl mx-auto">
           Preencha o formulário abaixo. Nossa equipe fará a análise e entrará em contato em até 24
           horas.
         </p>
@@ -173,10 +168,10 @@ export function RegistrationForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-[24px]">
             {formType === 'PF' ? <PFFields /> : <PJFields />}
 
-            <div className="pt-8 border-t border-[#E0E0E0] flex justify-end">
+            <div className="pt-[32px] border-t border-[#E0E0E0] flex justify-end">
               <Button
                 type="submit"
-                className="w-full md:w-auto bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white h-[48px] px-[32px] rounded-[8px] transition-all hover:shadow-lg hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none font-bold"
+                className="w-full md:w-auto"
                 disabled={!form.formState.isValid || isLoading}
               >
                 {isLoading ? (

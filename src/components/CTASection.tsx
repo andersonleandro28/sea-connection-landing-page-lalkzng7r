@@ -9,31 +9,22 @@ export function CTASection() {
   }
 
   return (
-    <section className="py-20 md:py-28 px-4 bg-white text-center">
+    <section className="section-padding px-4 bg-[#FFFFFF] text-center border-t border-[#E0E0E0]">
       <div
-        className="container mx-auto max-w-4xl space-y-8 animate-slide-up opacity-0"
+        className="container mx-auto max-w-4xl space-y-[32px] animate-slide-up opacity-0"
         style={{ animationFillMode: 'forwards' }}
       >
-        <div className="space-y-4">
-          <h2 className="text-[32px] md:text-[48px] font-bold text-[#1A3A52] leading-tight">
-            Pronto para começar?
-          </h2>
-          <p className="text-[16px] md:text-[20px] text-[#333333]">
+        <div className="space-y-[16px]">
+          <h2 className="h2">Pronto para começar?</h2>
+          <p className="p-body text-[20px]">
             Junte-se a 50.000+ clientes que já confiam na Sea Connection
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-          <Button
-            onClick={scrollToCadastro}
-            className="w-full sm:w-auto bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white font-bold h-[56px] px-8 rounded-[8px] transition-all hover:scale-105 hover:shadow-lg"
-          >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-[16px] pt-4">
+          <Button size="lg" onClick={scrollToCadastro} className="w-full sm:w-auto">
             Criar Conta Agora
           </Button>
-          <Button
-            asChild
-            variant="outline"
-            className="w-full sm:w-auto border-2 border-[#1A3A52] text-[#1A3A52] hover:bg-[#1A3A52] hover:text-white font-bold h-[56px] px-8 rounded-[8px] transition-all hover:scale-105 bg-transparent"
-          >
+          <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
             <a
               href="https://seaconnection.new.paytime.com.br/login"
               target="_blank"

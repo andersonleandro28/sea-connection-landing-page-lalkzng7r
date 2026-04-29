@@ -13,7 +13,7 @@ export default function Index() {
       <Products />
       <Features />
 
-      <section className="py-20 md:py-28 px-4 bg-slate-50">
+      <section className="section-padding px-4 bg-[#F5F5F5]">
         <div className="container mx-auto">
           <RegistrationForm />
         </div>

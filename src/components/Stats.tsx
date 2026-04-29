@@ -56,17 +56,17 @@ function AnimatedCounter({
 
 export function Stats() {
   return (
-    <section id="diferenciais" className="py-16 bg-white border-b border-slate-100">
+    <section id="numeros" className="section-padding bg-[#F5F5F5] border-y border-[#E0E0E0]">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] max-w-6xl mx-auto">
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="text-center bg-transparent animate-fade-in"
+              className="text-center bg-white rounded-[12px] shadow-subtle animate-fade-in card-padding hover:shadow-medium transition-shadow duration-300"
               style={{ animationDelay: `${i * 0.1}s` }}
             >
-              <div className="p-4 space-y-2">
-                <p className="text-[24px] font-bold text-[#00B4D8]">
+              <div className="space-y-[8px]">
+                <p className="text-[36px] font-bold text-[#00B4D8] leading-none">
                   <AnimatedCounter
                     end={stat.value}
                     prefix={stat.prefix}
@@ -74,7 +74,7 @@ export function Stats() {
                     isMillion={stat.isMillion}
                   />
                 </p>
-                <p className="text-[14px] font-bold text-[#1A3A52] uppercase tracking-wider">
+                <p className="p-small font-bold text-[#1A3A52] uppercase tracking-wider">
                   {stat.label}
                 </p>
               </div>

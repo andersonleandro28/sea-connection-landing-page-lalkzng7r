@@ -9,6 +9,46 @@
     scroll-behavior: smooth;
   }
 
+  body {
+    @apply text-[#333333] bg-[#FFFFFF] font-sans text-[16px];
+  }
+
+  h1,
+  .h1 {
+    @apply text-[32px] md:text-[48px] font-bold text-[#1A3A52] leading-tight;
+  }
+
+  h2,
+  .h2 {
+    @apply text-[28px] md:text-[36px] font-bold text-[#1A3A52] leading-tight;
+  }
+
+  h3,
+  .h3 {
+    @apply text-[24px] font-bold text-[#1A3A52] leading-tight;
+  }
+
+  p,
+  .p-body {
+    @apply text-[16px] text-[#333333] leading-relaxed;
+  }
+
+  small,
+  .p-small {
+    @apply text-[14px] text-[#666666];
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -78,6 +118,12 @@
 }
 
 @layer utilities {
+  .section-padding {
+    @apply py-[40px] md:py-[80px];
+  }
+  .card-padding {
+    @apply p-[24px];
+  }
   @keyframes fade-in {
     from {
       opacity: 0;

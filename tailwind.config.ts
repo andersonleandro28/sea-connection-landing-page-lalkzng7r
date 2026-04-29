@@ -33,7 +33,11 @@ export default {
         'sea-navy': '#1A3A52',
         'sea-cyan': '#00B4D8',
         'sea-gray': '#333333',
-        'sea-light-gray': '#999999',
+        'sea-light-gray': '#666666',
+        'sea-neutral-light': '#FFFFFF',
+        'sea-neutral-dark': '#F5F5F5',
+        'sea-error': '#E53E3E',
+        'sea-success': '#48BB78',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -78,7 +82,9 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       boxShadow: {
-        subtle: '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+        subtle: '0 2px 8px rgba(0, 0, 0, 0.08)',
+        medium: '0 4px 16px rgba(0, 0, 0, 0.12)',
+        strong: '0 8px 24px rgba(0, 0, 0, 0.16)',
         elevation: '0 4px 20px rgba(0, 0, 0, 0.05)',
       },
       keyframes: {

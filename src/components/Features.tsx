@@ -44,27 +44,25 @@ export function Features() {
   }
 
   return (
-    <section className="py-10 md:py-20 px-4 bg-white" id="diferenciais">
+    <section className="section-padding px-4 bg-white" id="diferenciais">
       <div className="container mx-auto">
-        <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1A3A52] mb-4">
-            Por que escolher Sea Connection?
-          </h2>
-          <p className="text-lg text-[#333333]">Somos diferentes porque entendemos seu negócio</p>
+        <div className="text-center mb-[40px] animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <h2 className="h2 mb-[16px]">Por que escolher Sea Connection?</h2>
+          <p className="p-body text-[18px]">Somos diferentes porque entendemos seu negócio</p>
         </div>
 
         {status === 'loading' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] max-w-6xl mx-auto">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="p-8 rounded-xl border-2 border-gray-100 bg-gray-50 flex flex-col items-center text-center"
+                className="p-[32px] rounded-[12px] border border-[#E0E0E0] bg-[#F5F5F5] flex flex-col items-center text-center"
               >
-                <Skeleton className="w-16 h-16 rounded-full mb-6" />
-                <Skeleton className="h-6 w-3/4 mb-4" />
+                <Skeleton className="w-[64px] h-[64px] rounded-full mb-[24px]" />
+                <Skeleton className="h-6 w-3/4 mb-[16px]" />
                 <Skeleton className="h-4 w-full mb-2" />
                 <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-2/3 mb-6" />
+                <Skeleton className="h-4 w-2/3 mb-[32px]" />
                 <Skeleton className="h-6 w-24 rounded-full mt-auto" />
               </div>
             ))}
@@ -72,13 +70,11 @@ export function Features() {
         )}
 
         {status === 'error' && (
-          <div className="flex flex-col items-center justify-center p-12 text-center border-2 border-dashed border-gray-200 rounded-xl max-w-2xl mx-auto">
-            <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
-            <h3 className="text-xl font-bold text-[#1A3A52] mb-2">Ops! Ocorreu um erro</h3>
-            <p className="text-[#333333] mb-6">
-              Não foi possível carregar nossos diferenciais no momento.
-            </p>
-            <Button onClick={handleRetry} className="bg-[#00B4D8] hover:bg-[#0096B4] text-white">
+          <div className="flex flex-col items-center justify-center p-[40px] text-center border border-dashed border-[#E0E0E0] rounded-[12px] max-w-2xl mx-auto bg-[#F5F5F5]">
+            <AlertCircle className="w-12 h-12 text-[#E53E3E] mb-4" />
+            <h3 className="h3 mb-2">Ops! Ocorreu um erro</h3>
+            <p className="p-body mb-6">Não foi possível carregar nossos diferenciais no momento.</p>
+            <Button onClick={handleRetry}>
               <RefreshCw className="w-4 h-4 mr-2" />
               Tentar novamente
             </Button>
@@ -86,19 +82,19 @@ export function Features() {
         )}
 
         {status === 'success' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] max-w-6xl mx-auto">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="p-8 rounded-xl border-2 border-[#00B4D8] bg-gradient-to-b from-white to-[#F5F5F5] flex flex-col items-center text-center animate-in slide-in-from-bottom-8 fade-in duration-700 fill-mode-both"
+                className="p-[32px] rounded-[12px] border-2 border-[#00B4D8] bg-gradient-to-b from-[#FFFFFF] to-[#F5F5F5] flex flex-col items-center text-center animate-in slide-in-from-bottom-8 fade-in duration-700 fill-mode-both hover:shadow-medium hover:-translate-y-1 transition-all"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="mb-6">
-                  <feature.icon className="w-16 h-16 text-[#00B4D8]" strokeWidth={1.5} />
+                <div className="mb-[24px]">
+                  <feature.icon className="w-[64px] h-[64px] text-[#00B4D8]" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-[20px] font-bold text-[#1A3A52] mb-3">{feature.title}</h3>
-                <p className="text-[16px] text-[#333333] mb-8 flex-grow">{feature.description}</p>
-                <Badge className="bg-[#00B4D8] hover:bg-[#00B4D8] text-white text-[12px] px-3 py-1 font-semibold rounded-full mt-auto border-none">
+                <h3 className="h3 mb-[16px]">{feature.title}</h3>
+                <p className="p-body mb-[32px] flex-grow">{feature.description}</p>
+                <Badge className="bg-[#00B4D8] hover:bg-[#00B4D8] text-[#FFFFFF] text-[12px] px-[12px] py-[4px] font-bold rounded-full mt-auto border-none shadow-subtle">
                   {feature.highlight}
                 </Badge>
               </div>

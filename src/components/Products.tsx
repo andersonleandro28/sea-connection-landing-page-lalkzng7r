@@ -67,21 +67,19 @@ export function Products() {
   }
 
   return (
-    <section id="produtos" className="py-20 md:py-28 bg-white">
+    <section id="produtos" className="section-padding bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1A3A52] mb-4">Nossas Soluções</h2>
-          <p className="text-[#333333] text-lg max-w-2xl mx-auto">
-            Tudo que você precisa para receber pagamentos
-          </p>
+        <div className="text-center mb-[40px] animate-fade-in-up">
+          <h2 className="h2 mb-[16px]">Nossas Soluções</h2>
+          <p className="p-body max-w-2xl mx-auto">Tudo que você precisa para receber pagamentos</p>
         </div>
 
         {status === 'loading' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[20px]">
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
-                className="bg-white border border-[#E0E0E0] rounded-[12px] p-6 flex flex-col h-full"
+                className="bg-white border border-[#E0E0E0] rounded-[12px] card-padding flex flex-col h-full"
               >
                 <Skeleton className="w-12 h-12 rounded-lg mb-6" />
                 <Skeleton className="h-6 w-3/4 mb-3" />
@@ -106,31 +104,29 @@ export function Products() {
         )}
 
         {status === 'success' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-[20px]">
             {products.map((product, index) => {
               const Icon = product.icon
               return (
                 <div
                   key={product.id}
-                  className="bg-white border border-[#E0E0E0] rounded-[12px] p-6 hover:border-[#00B4D8] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 flex flex-col group animate-fade-in-up"
+                  className="bg-white border border-[#E0E0E0] rounded-[12px] card-padding hover:border-[#00B4D8] hover:shadow-medium hover:-translate-y-1 transition-all duration-300 flex flex-col group animate-fade-in-up"
                   style={{ animationDelay: `${(index + 1) * 100}ms`, animationFillMode: 'both' }}
                 >
                   <Icon
-                    className="w-12 h-12 text-[#00B4D8] mb-6 transform group-hover:scale-110 transition-transform duration-300"
+                    className="w-12 h-12 text-[#00B4D8] mb-[24px] transform group-hover:scale-110 transition-transform duration-300"
                     strokeWidth={1.5}
                   />
 
-                  <h3 className="text-xl font-bold text-[#1A3A52] mb-3 leading-tight">
+                  <h3 className="text-[20px] font-bold text-[#1A3A52] mb-[16px] leading-tight">
                     {product.title}
                   </h3>
 
-                  <p className="text-[#333333] text-[14px] leading-relaxed mb-6 flex-grow">
-                    {product.description}
-                  </p>
+                  <p className="p-body text-[14px] mb-[24px] flex-grow">{product.description}</p>
 
                   <a
                     href="#produtos"
-                    className="mt-auto text-[#00B4D8] text-[14px] font-bold flex items-center gap-2 group-hover:gap-3 transition-all"
+                    className="mt-auto text-[#00B4D8] text-[14px] font-bold flex items-center gap-[8px] group-hover:gap-[12px] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
                   >
                     Saiba Mais <ArrowRight className="w-4 h-4" />
                   </a>
