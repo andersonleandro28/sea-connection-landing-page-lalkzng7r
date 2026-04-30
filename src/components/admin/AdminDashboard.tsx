@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
@@ -13,7 +13,7 @@ import { StatCard } from './StatCard'
 import { PreCadastroTable } from './PreCadastroTable'
 import { PreCadastroModal } from './PreCadastroModal'
 import { Button } from '@/components/ui/button'
-import { LogOut } from 'lucide-react'
+import { LogOut, Download } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import {
   Pagination,
@@ -23,6 +23,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+import { Bar, BarChart, XAxis, YAxis } from 'recharts'
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+import { format } from 'date-fns'
 
 export function AdminDashboard() {
   const [data, setData] = useState<any[]>([])
@@ -30,18 +33,14 @@ export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('pendente')
   const [search, setSearch] = useState('')
   const [selectedItem, setSelectedItem] = useState<any>(null)
-
   const [filterTipo, setFilterTipo] = useState('todos')
   const [filterData, setFilterData] = useState('todos')
   const [currentPage, setCurrentPage] = useState(1)
-
   const { signOut } = useAuth()
 
-  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1)
   }, [activeTab, filterTipo, filterData, search])
-
   useEffect(() => {
     fetchData()
   }, [])
@@ -56,54 +55,92 @@ export function AdminDashboard() {
     setLoading(false)
   }
 
-  const filtered = data.filter((item) => {
-    if (item.status !== activeTab) return false
-    if (filterTipo !== 'todos' && item.tipo !== filterTipo) return false
+  const filtered = useMemo(
+    () =>
+      data.filter((item) => {
+        if (item.status !== activeTab) return false
+        if (filterTipo !== 'todos' && item.tipo !== filterTipo) return false
+        if (filterData !== 'todos') {
+          const diffDays = Math.ceil(
+            Math.abs(new Date().getTime() - new Date(item.created_at).getTime()) /
+              (1000 * 60 * 60 * 24),
+          )
+          if (filterData === '7d' && diffDays > 7) return false
+          if (filterData === '30d' && diffDays > 30) return false
+        }
+        if (search) {
+          const s = search.toLowerCase()
+          return (
+            item.nome_completo?.toLowerCase().includes(s) ||
+            item.razao_social?.toLowerCase().includes(s) ||
+            item.email.toLowerCase().includes(s) ||
+            item.cpf?.includes(s) ||
+            item.cnpj?.includes(s)
+          )
+        }
+        return true
+      }),
+    [data, activeTab, filterTipo, filterData, search],
+  )
 
-    if (filterData !== 'todos') {
-      const date = new Date(item.created_at)
-      const now = new Date()
-      const diffTime = Math.abs(now.getTime() - date.getTime())
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-      if (filterData === '7d' && diffDays > 7) return false
-      if (filterData === '30d' && diffDays > 30) return false
-    }
+  const stats = useMemo(
+    () => ({
+      total: data.length,
+      pendentes: data.filter((d) => d.status === 'pendente').length,
+      aprovados: data.filter((d) => d.status === 'aprovado').length,
+      rejeitados: data.filter((d) => d.status === 'rejeitado').length,
+    }),
+    [data],
+  )
 
-    if (search) {
-      const s = search.toLowerCase()
-      return (
-        item.nome_completo?.toLowerCase().includes(s) ||
-        item.razao_social?.toLowerCase().includes(s) ||
-        item.email.toLowerCase().includes(s) ||
-        item.cpf?.includes(s) ||
-        item.cnpj?.includes(s)
-      )
-    }
-    return true
-  })
-
-  const stats = {
-    total: data.length,
-    pendentes: data.filter((d) => d.status === 'pendente').length,
-    aprovados: data.filter((d) => d.status === 'aprovado').length,
-    rejeitados: data.filter((d) => d.status === 'rejeitado').length,
-  }
   const taxaAprovacao =
     stats.total > 0
       ? Math.round((stats.aprovados / (stats.aprovados + stats.rejeitados || 1)) * 100)
       : 0
+  const tempoMedioDias = useMemo(() => {
+    let tempoTotal = 0
+    let count = 0
+    data.forEach((item) => {
+      if (item.status !== 'pendente' && item.updated_at && item.created_at) {
+        tempoTotal += new Date(item.updated_at).getTime() - new Date(item.created_at).getTime()
+        count++
+      }
+    })
+    return count > 0 ? (tempoTotal / count / (1000 * 60 * 60 * 24)).toFixed(1) : '0'
+  }, [data])
 
-  let tempoTotal = 0
-  let analisadosCount = 0
-  data.forEach((item) => {
-    if (item.status !== 'pendente' && item.updated_at && item.created_at) {
-      const diff = new Date(item.updated_at).getTime() - new Date(item.created_at).getTime()
-      tempoTotal += diff
-      analisadosCount++
-    }
-  })
-  const tempoMedioDias =
-    analisadosCount > 0 ? (tempoTotal / analisadosCount / (1000 * 60 * 60 * 24)).toFixed(1) : '0'
+  const chartData = useMemo(() => {
+    return Array.from({ length: 7 }).map((_, i) => {
+      const d = new Date()
+      d.setDate(d.getDate() - (6 - i))
+      const day = format(d, 'dd/MM')
+      return {
+        name: day,
+        total: data.filter((item) => format(new Date(item.created_at), 'dd/MM') === day).length,
+      }
+    })
+  }, [data])
+
+  const exportToCSV = () => {
+    const headers = ['Nome/Razão Social', 'Tipo', 'Email', 'Telefone', 'Status', 'Data Cadastro']
+    const rows = filtered.map((item) => [
+      item.tipo === 'PF' ? item.nome_completo : item.razao_social,
+      item.tipo,
+      item.email,
+      item.telefone,
+      item.status,
+      format(new Date(item.created_at), 'dd/MM/yyyy HH:mm'),
+    ])
+    const csvContent = [
+      headers.join(','),
+      ...rows.map((r) => r.map((c) => `"${(c || '').replace(/"/g, '""')}"`).join(',')),
+    ].join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = 'pre_cadastros.csv'
+    link.click()
+  }
 
   const ITEMS_PER_PAGE = 20
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
@@ -124,13 +161,30 @@ export function AdminDashboard() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
-        <StatCard title="Total" value={stats.total} />
-        <StatCard title="Pendentes" value={stats.pendentes} />
-        <StatCard title="Aprovados" value={stats.aprovados} />
-        <StatCard title="Rejeitados" value={stats.rejeitados} />
-        <StatCard title="Aprovação" value={`${taxaAprovacao}%`} />
-        <StatCard title="Tempo Médio" value={`${tempoMedioDias} d`} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+          <StatCard title="Total" value={stats.total} />
+          <StatCard title="Pendentes" value={stats.pendentes} />
+          <StatCard title="Aprovados" value={stats.aprovados} />
+          <StatCard title="Rejeitados" value={stats.rejeitados} />
+          <StatCard title="Aprovação" value={`${taxaAprovacao}%`} />
+          <StatCard title="Tempo Médio" value={`${tempoMedioDias} d`} />
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex flex-col justify-center">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
+            Cadastros (Últimos 7 dias)
+          </h3>
+          <ChartContainer
+            config={{ total: { label: 'Cadastros', color: '#00B4D8' } }}
+            className="h-[120px] w-full"
+          >
+            <BarChart data={chartData}>
+              <XAxis dataKey="name" fontSize={10} tickLine={false} axisLine={false} />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="total" fill="var(--color-total)" radius={[2, 2, 0, 0]} />
+            </BarChart>
+          </ChartContainer>
+        </div>
       </div>
 
       <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-100">
@@ -147,42 +201,45 @@ export function AdminDashboard() {
                 Rejeitados
               </TabsTrigger>
             </TabsList>
-
             <div className="flex flex-col md:flex-row gap-3 w-full xl:w-auto">
+              <Button
+                variant="outline"
+                onClick={exportToCSV}
+                className="w-full md:w-auto border-slate-200"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Exportar CSV
+              </Button>
               <Select value={filterTipo} onValueChange={setFilterTipo}>
-                <SelectTrigger className="w-full md:w-[150px]">
+                <SelectTrigger className="w-full md:w-[140px]">
                   <SelectValue placeholder="Tipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="todos">Todos (PF/PJ)</SelectItem>
-                  <SelectItem value="PF">Pessoa Física</SelectItem>
-                  <SelectItem value="PJ">Pessoa Jurídica</SelectItem>
+                  <SelectItem value="todos">Todos</SelectItem>
+                  <SelectItem value="PF">PF</SelectItem>
+                  <SelectItem value="PJ">PJ</SelectItem>
                 </SelectContent>
               </Select>
-
               <Select value={filterData} onValueChange={setFilterData}>
-                <SelectTrigger className="w-full md:w-[160px]">
-                  <SelectValue placeholder="Data" />
+                <SelectTrigger className="w-full md:w-[150px]">
+                  <SelectValue placeholder="Período" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="todos">Todo o período</SelectItem>
+                  <SelectItem value="todos">Todo período</SelectItem>
                   <SelectItem value="7d">Últimos 7 dias</SelectItem>
                   <SelectItem value="30d">Últimos 30 dias</SelectItem>
                 </SelectContent>
               </Select>
-
               <Input
-                placeholder="Buscar por nome, email ou documento..."
+                placeholder="Buscar..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full md:w-[280px]"
+                className="w-full md:w-[200px]"
               />
             </div>
           </div>
-
           <TabsContent value={activeTab} className="mt-0">
             <PreCadastroTable data={paginatedData} loading={loading} onRowClick={setSelectedItem} />
-
             {!loading && totalPages > 1 && (
               <div className="mt-6 flex justify-end">
                 <Pagination>
@@ -223,7 +280,6 @@ export function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
-
       {selectedItem && (
         <PreCadastroModal
           item={selectedItem}
