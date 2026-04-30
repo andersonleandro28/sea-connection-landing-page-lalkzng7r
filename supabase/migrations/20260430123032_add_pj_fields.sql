@@ -1,0 +1,15 @@
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS descricao_estabelecimento TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS telefone_empresa TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS email_empresa TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS nome_representante TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS cpf_representante TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS data_nascimento_representante TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS celular_representante TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS email_representante TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS cep TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS logradouro TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS numero TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS complemento TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS bairro TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS cidade TEXT;
+ALTER TABLE public.pre_cadastros ADD COLUMN IF NOT EXISTS estado TEXT;

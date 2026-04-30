@@ -6,7 +6,7 @@ import { CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
-import { isValidCPF, isValidCNPJ } from '@/lib/validators'
+import { isValidCPF, isValidCNPJ, isAdult } from '@/lib/validators'
 import { PFFields } from './forms/PFFields'
 import { PJFields } from './forms/PJFields'
 import { cn } from '@/lib/utils'
@@ -35,6 +35,19 @@ const pjSchema = z.object({
   cnpj: z.string().refine(isValidCNPJ, 'CNPJ inválido'),
   ramo: z.string().min(1, 'Selecione uma opção'),
   faturamento: z.string().min(1, 'Selecione uma opção'),
+  descricao: z.string().max(500, 'Máximo 500 caracteres').min(5, 'Obrigatório'),
+  nomeRepresentante: z.string().min(3, 'Obrigatório'),
+  cpfRepresentante: z.string().refine(isValidCPF, 'CPF inválido'),
+  dataNascimento: z.string().refine(isAdult, 'Deve ter 18 anos ou mais'),
+  celularRepresentante: z.string().min(14, 'Celular incompleto'),
+  emailRepresentante: z.string().email('Email inválido'),
+  cep: z.string().min(9, 'CEP incompleto'),
+  logradouro: z.string().min(2, 'Obrigatório'),
+  numero: z.string().min(1, 'Obrigatório'),
+  complemento: z.string().optional(),
+  bairro: z.string().min(2, 'Obrigatório'),
+  cidade: z.string().min(2, 'Obrigatório'),
+  estado: z.string().min(2, 'Obrigatório'),
   contratoSocial: z.any().refine((val) => val != null, 'Obrigatório'),
   selfieResponsavel: z.any().refine((val) => val != null, 'Obrigatório'),
 })
@@ -171,7 +184,7 @@ export function RegistrationForm() {
             <div className="pt-[32px] border-t border-[#E0E0E0] flex justify-end">
               <Button
                 type="submit"
-                className="w-full md:w-auto"
+                className="w-full md:w-auto bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white"
                 disabled={!form.formState.isValid || isLoading}
               >
                 {isLoading ? (

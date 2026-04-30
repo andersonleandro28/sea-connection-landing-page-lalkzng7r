@@ -43,6 +43,21 @@ export async function submitPreCadastro(data: any) {
       selfie_documento_url,
       contrato_social_url,
       status: 'pendente',
+      descricao_estabelecimento: data.descricao || null,
+      telefone_empresa: data.type === 'PJ' ? data.telefone : null,
+      email_empresa: data.type === 'PJ' ? data.email : null,
+      nome_representante: data.nomeRepresentante || null,
+      cpf_representante: data.cpfRepresentante || null,
+      data_nascimento_representante: data.dataNascimento || null,
+      celular_representante: data.celularRepresentante || null,
+      email_representante: data.emailRepresentante || null,
+      cep: data.cep || null,
+      logradouro: data.logradouro || null,
+      numero: data.numero || null,
+      complemento: data.complemento || null,
+      bairro: data.bairro || null,
+      cidade: data.cidade || null,
+      estado: data.estado || null,
     }
 
     const { error } = await supabase.from('pre_cadastros').insert(dbData)

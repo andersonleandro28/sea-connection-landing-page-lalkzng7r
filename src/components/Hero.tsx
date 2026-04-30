@@ -26,9 +26,9 @@ export function Hero() {
   }
 
   return (
-    <section className="relative overflow-hidden section-padding px-[40px] md:px-[80px] animate-fade-in bg-[#F5F5F5]">
+    <section className="relative overflow-hidden section-padding px-[40px] md:px-[80px] animate-fade-in">
       <div
-        className="absolute inset-0 pointer-events-none opacity-20"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background: 'linear-gradient(135deg, #1A3A52 0%, #00B4D8 100%)',
           transform: `translateY(${offsetY * 0.2}px)`,
@@ -37,17 +37,26 @@ export function Hero() {
 
       <div className="container mx-auto relative z-10 flex flex-col md:flex-row items-center gap-[32px]">
         <div className="flex-1 space-y-[24px] text-center md:text-left">
-          <h1 className="h1">
-            Receba pagamentos de forma <span className="text-[#00B4D8]">simples e rápida</span>
+          <h1 className="h1 text-white">
+            Receba pagamentos de forma{' '}
+            <span className="text-[#00B4D8] bg-white px-2 rounded whitespace-nowrap">
+              simples e rápida
+            </span>
           </h1>
-          <p className="p-body text-[18px] max-w-2xl mx-auto md:mx-0">
+          <p className="p-body text-[18px] max-w-2xl mx-auto md:mx-0 text-white/90">
             Maquininha, Pix, Boleto, Link de Pagamento e Conta Digital. Tudo em um só lugar.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-[16px] pt-4">
-            <Button className="w-full sm:w-auto" onClick={scrollToForm}>
+            <Button
+              className="w-full sm:w-auto bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white shadow-strong"
+              onClick={scrollToForm}
+            >
               Começar Agora
             </Button>
-            <Button variant="outline" className="w-full sm:w-auto" onClick={scrollToNext}>
+            <Button
+              className="w-full sm:w-auto bg-white border border-[#1A3A52] text-[#1A3A52] hover:bg-[#F5F5F5]"
+              onClick={scrollToNext}
+            >
               Saiba Mais
             </Button>
           </div>

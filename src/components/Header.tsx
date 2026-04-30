@@ -42,8 +42,7 @@ export function Header() {
 
         <div className="flex items-center gap-[16px]">
           <Button
-            variant="ghost"
-            className="hidden sm:flex text-[#00B4D8] hover:text-[#00B4D8] hover:bg-[#00B4D8]/10"
+            className="hidden sm:flex bg-[#00B4D8] text-white hover:bg-[#00B4D8]/90 shadow-sm"
             asChild
           >
             <a
@@ -54,7 +53,10 @@ export function Header() {
               Acessar Conta
             </a>
           </Button>
-          <Button variant="secondary" onClick={scrollToForm as any}>
+          <Button
+            className="bg-[#1A3A52] text-white hover:bg-[#1A3A52]/90 shadow-sm"
+            onClick={scrollToForm as any}
+          >
             Criar Conta
           </Button>
         </div>

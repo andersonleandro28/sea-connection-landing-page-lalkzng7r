@@ -19,6 +19,31 @@ export const isValidCPF = (cpf: string): boolean => {
   return true
 }
 
+export const isValidDate = (dateString: string): boolean => {
+  const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/
+  if (!regex.test(dateString)) return false
+  const [, day, month, year] = dateString.match(regex)!
+  const date = new Date(`${year}-${month}-${day}T00:00:00`)
+  return (
+    date.getFullYear() === parseInt(year) &&
+    date.getMonth() + 1 === parseInt(month) &&
+    date.getDate() === parseInt(day)
+  )
+}
+
+export const isAdult = (dateString: string): boolean => {
+  if (!isValidDate(dateString)) return false
+  const [day, month, year] = dateString.split('/')
+  const birthDate = new Date(`${year}-${month}-${day}T00:00:00`)
+  const today = new Date()
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const m = today.getMonth() - birthDate.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+  return age >= 18
+}
+
 export const isValidCNPJ = (cnpj: string): boolean => {
   const cleanCNPJ = cnpj.replace(/\D/g, '')
   if (cleanCNPJ.length !== 14 || /^(\d)\1{13}$/.test(cleanCNPJ)) return false
