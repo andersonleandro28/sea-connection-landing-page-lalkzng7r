@@ -87,10 +87,10 @@ export function PJFields() {
   }
 
   return (
-    <div className="space-y-[32px] animate-fade-in transition-all duration-200">
+    <div className="flex flex-col gap-[32px] animate-fade-in transition-all duration-200">
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Dados da Empresa" step={1} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="razaoSocial"
@@ -285,9 +285,11 @@ export function PJFields() {
         </div>
       </div>
 
+      <hr className="border-[#E0E0E0]" />
+
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Dados do Representante Legal" step={2} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="nomeRepresentante"
@@ -410,9 +412,11 @@ export function PJFields() {
         </div>
       </div>
 
+      <hr className="border-[#E0E0E0]" />
+
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Endereço da Empresa" step={3} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="cep"
@@ -579,9 +583,11 @@ export function PJFields() {
         </div>
       </div>
 
+      <hr className="border-[#E0E0E0]" />
+
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Documentação" step={4} />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="contratoSocial"
@@ -643,6 +649,8 @@ export function PJFields() {
           />
         </div>
       </div>
+
+      <hr className="border-[#E0E0E0]" />
 
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px]">
         <FormField

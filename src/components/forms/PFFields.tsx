@@ -87,11 +87,11 @@ export function PFFields() {
   }
 
   return (
-    <div className="space-y-[32px] animate-fade-in transition-all duration-200">
+    <div className="flex flex-col gap-[32px] animate-fade-in transition-all duration-200">
       {/* SEÇÃO 1: DADOS PESSOAIS */}
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Dados Pessoais" step={1} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="nome"
@@ -214,10 +214,12 @@ export function PFFields() {
         </div>
       </div>
 
+      <hr className="border-[#E0E0E0]" />
+
       {/* SEÇÃO 2: INFORMAÇÕES FINANCEIRAS */}
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Informações Financeiras" step={2} />
-        <div className="grid grid-cols-1 gap-[16px]">
+        <div className="grid grid-cols-1 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="renda"
@@ -286,10 +288,12 @@ export function PFFields() {
         </div>
       </div>
 
+      <hr className="border-[#E0E0E0]" />
+
       {/* SEÇÃO 3: ENDEREÇO */}
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Endereço" step={3} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="cep"
@@ -462,10 +466,12 @@ export function PFFields() {
         </div>
       </div>
 
+      <hr className="border-[#E0E0E0]" />
+
       {/* SEÇÃO 4: DOCUMENTAÇÃO */}
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
         <SectionTitle title="Documentação" step={4} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] stagger-fields">
           <FormField
             control={control}
             name="documentoIdentidade"
@@ -549,6 +555,8 @@ export function PFFields() {
           />
         </div>
       </div>
+
+      <hr className="border-[#E0E0E0]" />
 
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px]">
         <FormField

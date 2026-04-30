@@ -123,7 +123,7 @@ export function FileUpload({
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-3 shrink-0">
               {progress === 100 && <CheckCircle2 className="h-5 w-5 text-[#48BB78]" />}
               {progress === 100 && value && (
                 <button
@@ -140,16 +140,17 @@ export function FileUpload({
                     document.body.removeChild(a)
                     URL.revokeObjectURL(url)
                   }}
-                  className="p-1 hover:bg-[#F5F5F5] rounded text-[#999999] hover:text-[#00B4D8] transition-colors"
+                  className="text-[12px] text-[#1A3A52] hover:underline font-medium whitespace-nowrap"
                   title="Baixar arquivo"
                 >
-                  <Download className="h-4 w-4" />
+                  Baixar
                 </button>
               )}
               <button
                 type="button"
                 onClick={handleRemove}
-                className="p-1 hover:bg-[#F5F5F5] rounded text-[#999999] hover:text-[#E53E3E] transition-colors"
+                className="p-1 hover:bg-[#F5F5F5] rounded text-[#999999] hover:text-[#E53E3E] transition-colors flex items-center justify-center"
+                title="Remover"
               >
                 <X className="h-4 w-4" />
               </button>

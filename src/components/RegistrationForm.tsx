@@ -173,7 +173,7 @@ export function RegistrationForm() {
               type="button"
               onClick={() => handleTypeChange('PF')}
               className={cn(
-                'px-8 text-[14px] font-bold rounded-[8px] transition-all duration-200',
+                'px-8 h-full flex items-center justify-center text-[14px] font-bold rounded-[8px] transition-all duration-200',
                 formType === 'PF'
                   ? 'bg-[#00B4D8] text-white shadow-sm'
                   : 'bg-transparent text-[#666666] hover:text-[#333333]',
@@ -185,7 +185,7 @@ export function RegistrationForm() {
               type="button"
               onClick={() => handleTypeChange('PJ')}
               className={cn(
-                'px-8 text-[14px] font-bold rounded-[8px] transition-all duration-200',
+                'px-8 h-full flex items-center justify-center text-[14px] font-bold rounded-[8px] transition-all duration-200',
                 formType === 'PJ'
                   ? 'bg-[#00B4D8] text-white shadow-sm'
                   : 'bg-transparent text-[#666666] hover:text-[#333333]',
