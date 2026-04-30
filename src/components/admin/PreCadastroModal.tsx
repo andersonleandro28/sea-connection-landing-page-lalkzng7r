@@ -92,6 +92,43 @@ export function PreCadastroModal({ item, onClose, onUpdate }: any) {
                 <>
                   <Detail label="Faturamento Mensal" value={item.faturamento_mensal} />
                   <Detail label="Ramo de Atividade" value={item.ramo_atividade} />
+                  <Detail
+                    label="Descrição do Estabelecimento"
+                    value={item.descricao_estabelecimento}
+                  />
+                  <Detail label="Telefone da Empresa" value={item.telefone_empresa} />
+                  <Detail label="Email da Empresa" value={item.email_empresa} />
+
+                  <div className="pt-4 mt-4 border-t border-dashed">
+                    <h4 className="font-semibold text-xs text-[#1A3A52] uppercase tracking-wider mb-3">
+                      Endereço
+                    </h4>
+                    <Detail label="CEP" value={item.cep} />
+                    <Detail
+                      label="Logradouro"
+                      value={
+                        item.logradouro
+                          ? `${item.logradouro}, ${item.numero || ''} ${item.complemento ? `- ${item.complemento}` : ''}`
+                          : '-'
+                      }
+                    />
+                    <Detail label="Bairro" value={item.bairro} />
+                    <Detail
+                      label="Cidade/UF"
+                      value={item.cidade ? `${item.cidade} / ${item.estado}` : '-'}
+                    />
+                  </div>
+
+                  <div className="pt-4 mt-4 border-t border-dashed">
+                    <h4 className="font-semibold text-xs text-[#1A3A52] uppercase tracking-wider mb-3">
+                      Representante Legal
+                    </h4>
+                    <Detail label="Nome" value={item.nome_representante} />
+                    <Detail label="CPF" value={item.cpf_representante} />
+                    <Detail label="Data de Nascimento" value={item.data_nascimento_representante} />
+                    <Detail label="Celular" value={item.celular_representante} />
+                    <Detail label="Email" value={item.email_representante} />
+                  </div>
                 </>
               )}
 
@@ -159,7 +196,7 @@ export function PreCadastroModal({ item, onClose, onUpdate }: any) {
               </div>
             ) : (
               <div className="flex justify-end gap-3 w-full">
-                <Button variant="outline" onClick={onClose} className="mr-auto hidden sm:flex">
+                <Button variant="outline" onClick={onClose} className="mr-auto">
                   Voltar
                 </Button>
                 <Button

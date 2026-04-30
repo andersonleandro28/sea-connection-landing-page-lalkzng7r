@@ -56,13 +56,14 @@ export function PreCadastroTable({ data, loading, onRowClick }: any) {
               <TableHead>Telefone</TableHead>
               <TableHead>Data</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.map((item: any) => (
               <TableRow
                 key={item.id}
-                className="cursor-pointer hover:bg-slate-50 transition-colors"
+                className="cursor-pointer hover:bg-slate-50 transition-colors group"
                 onClick={() => onRowClick(item)}
               >
                 <TableCell className="font-medium">
@@ -80,6 +81,11 @@ export function PreCadastroTable({ data, loading, onRowClick }: any) {
                 </TableCell>
                 <TableCell>
                   <StatusBadge status={item.status} />
+                </TableCell>
+                <TableCell className="text-right">
+                  <span className="text-[#00B4D8] font-medium text-sm group-hover:underline">
+                    Ver Detalhes
+                  </span>
                 </TableCell>
               </TableRow>
             ))}

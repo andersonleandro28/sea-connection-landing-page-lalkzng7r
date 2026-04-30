@@ -15,6 +15,14 @@ import { PreCadastroModal } from './PreCadastroModal'
 import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 
 export function AdminDashboard() {
   const [data, setData] = useState<any[]>([])
@@ -25,8 +33,14 @@ export function AdminDashboard() {
 
   const [filterTipo, setFilterTipo] = useState('todos')
   const [filterData, setFilterData] = useState('todos')
+  const [currentPage, setCurrentPage] = useState(1)
 
   const { signOut } = useAuth()
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [activeTab, filterTipo, filterData, search])
 
   useEffect(() => {
     fetchData()
@@ -90,6 +104,13 @@ export function AdminDashboard() {
   })
   const tempoMedioDias =
     analisadosCount > 0 ? (tempoTotal / analisadosCount / (1000 * 60 * 60 * 24)).toFixed(1) : '0'
+
+  const ITEMS_PER_PAGE = 20
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
+  const paginatedData = filtered.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  )
 
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-6">
@@ -160,7 +181,45 @@ export function AdminDashboard() {
           </div>
 
           <TabsContent value={activeTab} className="mt-0">
-            <PreCadastroTable data={filtered} loading={loading} onRowClick={setSelectedItem} />
+            <PreCadastroTable data={paginatedData} loading={loading} onRowClick={setSelectedItem} />
+
+            {!loading && totalPages > 1 && (
+              <div className="mt-6 flex justify-end">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                        className={
+                          currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+                        }
+                      />
+                    </PaginationItem>
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                      <PaginationItem key={i}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(i + 1)}
+                          isActive={currentPage === i + 1}
+                          className="cursor-pointer"
+                        >
+                          {i + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                        className={
+                          currentPage === totalPages
+                            ? 'pointer-events-none opacity-50'
+                            : 'cursor-pointer'
+                        }
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
