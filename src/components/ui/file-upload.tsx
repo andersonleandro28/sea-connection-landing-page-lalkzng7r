@@ -73,7 +73,7 @@ export function FileUpload({
       {!value ? (
         <div
           className={cn(
-            'relative border-2 border-dashed rounded-[8px] p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors',
+            'relative border-2 border-dashed rounded-[8px] p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200',
             dragActive
               ? 'border-[#00B4D8] bg-[#00B4D8]/10'
               : 'border-[#00B4D8] bg-[#00B4D8]/5 hover:bg-[#00B4D8]/10',

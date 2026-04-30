@@ -137,17 +137,19 @@ export function RegistrationForm() {
   return (
     <Card
       id="cadastro"
-      className="w-full max-w-4xl mx-auto shadow-medium border-[#E0E0E0] bg-[#FFFFFF] scroll-mt-24 px-[24px] py-[40px] md:p-[64px]"
+      className="w-full max-w-4xl mx-auto shadow-medium border border-[#E0E0E0] bg-[#FFFFFF] scroll-mt-24 px-[30px] md:px-[60px] py-[40px] md:py-[80px] rounded-[16px]"
     >
       <div className="text-center pb-[32px]">
-        <h2 className="h2 mb-[8px]">Comece sua jornada com Sea Connection</h2>
-        <p className="p-body max-w-xl mx-auto">
+        <h2 className="text-[28px] md:text-[36px] font-bold text-[#1A3A52] mb-[8px]">
+          Comece sua jornada com Sea Connection
+        </h2>
+        <p className="text-[16px] text-[#333333] max-w-xl mx-auto">
           Preencha o formulário abaixo. Nossa equipe fará a análise e entrará em contato em até 24
           horas.
         </p>
 
         <div className="pt-8 flex justify-center">
-          <div className="inline-flex bg-[#F5F5F5] p-[4px] rounded-[8px] h-[44px]">
+          <div className="inline-flex bg-[#F5F5F5] p-[4px] rounded-[8px] h-[44px] transition-all duration-200">
             <button
               type="button"
               onClick={() => handleTypeChange('PF')}
@@ -155,7 +157,7 @@ export function RegistrationForm() {
                 'px-8 text-[14px] font-bold rounded-[8px] transition-all duration-200',
                 formType === 'PF'
                   ? 'bg-[#00B4D8] text-white shadow-sm'
-                  : 'bg-transparent text-[#999999] hover:text-[#333333]',
+                  : 'bg-transparent text-[#666666] hover:text-[#333333]',
               )}
             >
               Pessoa Física
@@ -167,7 +169,7 @@ export function RegistrationForm() {
                 'px-8 text-[14px] font-bold rounded-[8px] transition-all duration-200',
                 formType === 'PJ'
                   ? 'bg-[#00B4D8] text-white shadow-sm'
-                  : 'bg-transparent text-[#999999] hover:text-[#333333]',
+                  : 'bg-transparent text-[#666666] hover:text-[#333333]',
               )}
             >
               Pessoa Jurídica
@@ -184,7 +186,7 @@ export function RegistrationForm() {
             <div className="pt-[32px] border-t border-[#E0E0E0] flex justify-end">
               <Button
                 type="submit"
-                className="w-full md:w-auto bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white"
+                className="w-full md:w-auto h-[48px] px-[32px] rounded-[8px] bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white hover:shadow-medium hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none"
                 disabled={!form.formState.isValid || isLoading}
               >
                 {isLoading ? (

@@ -26,35 +26,37 @@ export function Hero() {
   }
 
   return (
-    <section className="relative overflow-hidden section-padding px-[40px] md:px-[80px] animate-fade-in">
+    <section className="relative overflow-hidden px-[40px] md:px-[80px] py-[60px] md:py-[120px] animate-fade-in duration-300">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: 'linear-gradient(135deg, #1A3A52 0%, #00B4D8 100%)',
           transform: `translateY(${offsetY * 0.2}px)`,
         }}
-      />
+      >
+        <div className="absolute inset-0 bg-white/5" />
+      </div>
 
-      <div className="container mx-auto relative z-10 flex flex-col md:flex-row items-center gap-[32px]">
+      <div className="container mx-auto relative z-10 flex flex-col md:flex-row items-center gap-[24px]">
         <div className="flex-1 space-y-[24px] text-center md:text-left">
-          <h1 className="h1 text-white">
+          <h1 className="text-[32px] md:text-[48px] font-bold text-[#1A3A52] leading-tight">
             Receba pagamentos de forma{' '}
-            <span className="text-[#00B4D8] bg-white px-2 rounded whitespace-nowrap">
+            <span className="text-white bg-[#00B4D8] px-2 rounded whitespace-nowrap inline-block mt-2 sm:mt-0">
               simples e rápida
             </span>
           </h1>
-          <p className="p-body text-[18px] max-w-2xl mx-auto md:mx-0 text-white/90">
+          <p className="text-[16px] md:text-[18px] text-[#333333] leading-relaxed max-w-2xl mx-auto md:mx-0">
             Maquininha, Pix, Boleto, Link de Pagamento e Conta Digital. Tudo em um só lugar.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-[16px] pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-[24px] pt-4">
             <Button
-              className="w-full sm:w-auto bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white shadow-strong"
+              className="w-full sm:w-auto h-[48px] px-[32px] rounded-[8px] bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white hover:shadow-medium hover:scale-105 transition-all duration-300"
               onClick={scrollToForm}
             >
               Começar Agora
             </Button>
             <Button
-              className="w-full sm:w-auto bg-white border border-[#1A3A52] text-[#1A3A52] hover:bg-[#F5F5F5]"
+              className="w-full sm:w-auto h-[48px] px-[32px] rounded-[8px] bg-transparent border border-[#1A3A52] text-[#1A3A52] hover:bg-[#1A3A52]/5 hover:scale-105 transition-all duration-300"
               onClick={scrollToNext}
             >
               Saiba Mais

@@ -66,7 +66,7 @@ export function Stats() {
               style={{ animationDelay: `${i * 0.1}s` }}
             >
               <div className="space-y-[8px]">
-                <p className="text-[36px] font-bold text-[#00B4D8] leading-none">
+                <p className="text-[24px] font-bold text-[#00B4D8] leading-none">
                   <AnimatedCounter
                     end={stat.value}
                     prefix={stat.prefix}

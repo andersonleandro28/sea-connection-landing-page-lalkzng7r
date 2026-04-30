@@ -30,6 +30,21 @@ function FieldWrapper({ field, fieldState, children }: any) {
   )
 }
 
+const inputClass = (isError: boolean, isValid: boolean) =>
+  cn(
+    'h-[44px] px-[16px] py-[12px] rounded-[8px] border border-[#E0E0E0] placeholder:text-[14px] placeholder:text-[#666666] focus-visible:border-[#00B4D8] focus-visible:ring-2 focus-visible:ring-[#00B4D8]/20 focus-visible:shadow-subtle transition-all duration-200 text-[16px] w-full bg-white',
+    isError &&
+      'border-[#E53E3E] bg-[#E53E3E]/5 focus-visible:border-[#E53E3E] focus-visible:ring-[#E53E3E]/20 pr-10',
+    isValid && 'border-[#48BB78] pr-10',
+  )
+
+const selectClass = (isError: boolean, isValid: boolean) =>
+  cn(
+    'h-[44px] px-[16px] py-[12px] rounded-[8px] border border-[#E0E0E0] focus:border-[#00B4D8] focus:ring-2 focus:ring-[#00B4D8]/20 focus:shadow-subtle transition-all duration-200 text-[16px] w-full bg-white',
+    isError && 'border-[#E53E3E] bg-[#E53E3E]/5 focus:border-[#E53E3E] focus:ring-[#E53E3E]/20',
+    isValid && 'border-[#48BB78]',
+  )
+
 export function PFFields() {
   const { control } = useFormContext()
 
@@ -53,12 +68,7 @@ export function PFFields() {
                     <Input
                       placeholder="João da Silva"
                       {...field}
-                      className={cn(
-                        'h-[44px] px-[16px] py-[12px] rounded-[8px] border-[#E0E0E0] placeholder:text-[#999999] focus-visible:border-[#00B4D8] focus-visible:ring-[#00B4D8]/20 transition-all',
-                        isError &&
-                          'border-[#E53E3E] bg-[#E53E3E]/5 focus-visible:border-[#E53E3E] focus-visible:ring-[#E53E3E]/20 pr-10',
-                        isValid && 'border-[#48BB78] pr-10',
-                      )}
+                      className={inputClass(isError, isValid)}
                     />
                   )}
                 </FieldWrapper>
@@ -86,12 +96,7 @@ export function PFFields() {
                       placeholder="000.000.000-00"
                       {...field}
                       onChange={(e) => field.onChange(formatCPF(e.target.value))}
-                      className={cn(
-                        'h-[44px] px-[16px] py-[12px] rounded-[8px] border-[#E0E0E0] placeholder:text-[#999999] focus-visible:border-[#00B4D8] focus-visible:ring-[#00B4D8]/20 transition-all',
-                        isError &&
-                          'border-[#E53E3E] bg-[#E53E3E]/5 focus-visible:border-[#E53E3E] pr-10',
-                        isValid && 'border-[#48BB78] pr-10',
-                      )}
+                      className={inputClass(isError, isValid)}
                     />
                   )}
                 </FieldWrapper>
@@ -119,12 +124,7 @@ export function PFFields() {
                       type="email"
                       placeholder="joao@exemplo.com"
                       {...field}
-                      className={cn(
-                        'h-[44px] px-[16px] py-[12px] rounded-[8px] border-[#E0E0E0] placeholder:text-[#999999] focus-visible:border-[#00B4D8] focus-visible:ring-[#00B4D8]/20 transition-all',
-                        isError &&
-                          'border-[#E53E3E] bg-[#E53E3E]/5 focus-visible:border-[#E53E3E] pr-10',
-                        isValid && 'border-[#48BB78] pr-10',
-                      )}
+                      className={inputClass(isError, isValid)}
                     />
                   )}
                 </FieldWrapper>
@@ -154,12 +154,7 @@ export function PFFields() {
                       placeholder="(00) 00000-0000"
                       {...field}
                       onChange={(e) => field.onChange(formatPhone(e.target.value))}
-                      className={cn(
-                        'h-[44px] px-[16px] py-[12px] rounded-[8px] border-[#E0E0E0] placeholder:text-[#999999] focus-visible:border-[#00B4D8] focus-visible:ring-[#00B4D8]/20 transition-all',
-                        isError &&
-                          'border-[#E53E3E] bg-[#E53E3E]/5 focus-visible:border-[#E53E3E] pr-10',
-                        isValid && 'border-[#48BB78] pr-10',
-                      )}
+                      className={inputClass(isError, isValid)}
                     />
                   )}
                 </FieldWrapper>
@@ -187,16 +182,12 @@ export function PFFields() {
                 </FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger
-                      className={cn(
-                        'h-[44px] px-[16px] py-[12px] rounded-[8px] border-[#E0E0E0] text-[14px] transition-all',
-                        isError && 'border-[#E53E3E] bg-[#E53E3E]/5 focus:border-[#E53E3E]',
-                        isValid && 'border-[#48BB78]',
-                      )}
-                    >
+                    <SelectTrigger className={selectClass(isError, isValid)}>
                       <SelectValue
                         placeholder={
-                          <span className="text-[#999999]">Selecione uma faixa de renda</span>
+                          <span className="text-[#666666] text-[14px]">
+                            Selecione uma faixa de renda
+                          </span>
                         }
                       />
                     </SelectTrigger>
