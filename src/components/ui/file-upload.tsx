@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { UploadCloud, File, X, CheckCircle2 } from 'lucide-react'
+import { UploadCloud, File, X, CheckCircle2, Download } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
 
@@ -125,6 +125,27 @@ export function FileUpload({
             </div>
             <div className="flex items-center gap-2 shrink-0">
               {progress === 100 && <CheckCircle2 className="h-5 w-5 text-[#48BB78]" />}
+              {progress === 100 && value && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    const url = URL.createObjectURL(value)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = value.name
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                    URL.revokeObjectURL(url)
+                  }}
+                  className="p-1 hover:bg-[#F5F5F5] rounded text-[#999999] hover:text-[#00B4D8] transition-colors"
+                  title="Baixar arquivo"
+                >
+                  <Download className="h-4 w-4" />
+                </button>
+              )}
               <button
                 type="button"
                 onClick={handleRemove}

@@ -16,8 +16,10 @@ export async function submitPreCadastro(data: any) {
     let comprovante_endereco_url = null
     let selfie_documento_url = null
     let contrato_social_url = null
+    let documento_identidade_url = null
 
     if (data.type === 'PF') {
+      documento_identidade_url = await upload(data.documentoIdentidade, 'identidade')
       comprovante_renda_url = await upload(data.comprovanteRenda, 'renda')
       comprovante_endereco_url = await upload(data.comprovanteEndereco, 'endereco')
       selfie_documento_url = await upload(data.selfie, 'selfie')
@@ -42,13 +44,15 @@ export async function submitPreCadastro(data: any) {
       comprovante_endereco_url,
       selfie_documento_url,
       contrato_social_url,
+      documento_identidade_url,
       status: 'pendente',
       descricao_estabelecimento: data.descricao || null,
       telefone_empresa: data.type === 'PJ' ? data.telefone : null,
       email_empresa: data.type === 'PJ' ? data.email : null,
       nome_representante: data.nomeRepresentante || null,
       cpf_representante: data.cpfRepresentante || null,
-      data_nascimento_representante: data.dataNascimento || null,
+      data_nascimento: data.type === 'PF' ? data.dataNascimento : null,
+      data_nascimento_representante: data.type === 'PJ' ? data.dataNascimento : null,
       celular_representante: data.celularRepresentante || null,
       email_representante: data.emailRepresentante || null,
       cep: data.cep || null,
