@@ -1,4 +1,11 @@
-import { Section, Detail, ValidableDetail, DocLink, calculateAge } from './SharedDetails'
+import {
+  Section,
+  Detail,
+  ValidableDetail,
+  DocLink,
+  calculateAge,
+  ValidationBadges,
+} from './SharedDetails'
 import { isValidCNPJ, isValidCPF } from '@/lib/validators'
 
 export function PreCadastroDetailsPJ({ item }: { item: any }) {
@@ -6,6 +13,8 @@ export function PreCadastroDetailsPJ({ item }: { item: any }) {
 
   return (
     <div className="space-y-6">
+      <ValidationBadges item={item} />
+
       <Section title="Seção 1 — Dados da Empresa">
         <Detail label="Razão Social" value={item.razao_social} />
         <ValidableDetail label="CNPJ" value={item.cnpj} isValid={isValidCNPJ(item.cnpj || '')} />

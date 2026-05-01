@@ -31,6 +31,64 @@ export const isValidDate = (dateString: string): boolean => {
   )
 }
 
+export const calculateAgeFromDateString = (dateString: string): number => {
+  if (!isValidDate(dateString)) return 0
+  const [day, month, year] = dateString.split('/')
+  const birthDate = new Date(`${year}-${month}-${day}T00:00:00`)
+  const today = new Date()
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const m = today.getMonth() - birthDate.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+  return age
+}
+
+export const analyzeRisk = (description: string): 'baixo' | 'médio' | 'alto' => {
+  if (!description) return 'alto'
+
+  const lowerDesc = description.toLowerCase()
+  const suspiciousWords = [
+    'lavagem',
+    'fraude',
+    'ilegal',
+    'clandestino',
+    'fake',
+    'golpe',
+    'laranja',
+    'pirâmide',
+  ]
+
+  if (description.length < 20) return 'alto'
+  if (suspiciousWords.some((word) => lowerDesc.includes(word))) return 'alto'
+
+  const commonVerbs = [
+    'vendo',
+    'vender',
+    'presto',
+    'prestar',
+    'trabalho',
+    'trabalhar',
+    'atendo',
+    'atender',
+    'faço',
+    'fazer',
+    'ofereço',
+    'oferecer',
+    'comercializo',
+    'produzo',
+    'consultoria',
+    'serviço',
+    'loja',
+    'entrego',
+  ]
+  const hasAction = commonVerbs.some((verb) => lowerDesc.includes(verb))
+
+  if (!hasAction && description.length < 50) return 'médio'
+
+  return 'baixo'
+}
+
 export const isAdult = (dateString: string): boolean => {
   if (!isValidDate(dateString)) return false
   const [day, month, year] = dateString.split('/')

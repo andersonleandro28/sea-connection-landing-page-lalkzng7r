@@ -1,5 +1,127 @@
-import { FileText, ExternalLink, CheckCircle2, XCircle } from 'lucide-react'
+import {
+  FileText,
+  ExternalLink,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  ShieldAlert,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
+
+export const ValidationBadges = ({ item }: { item: any }) => {
+  return (
+    <div className="flex flex-wrap gap-2 mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+      {item.tipo === 'PF' ? (
+        <Badge
+          variant="outline"
+          className={cn(
+            'flex items-center gap-1.5 py-1',
+            item.cpf_valido
+              ? 'border-green-200 bg-green-50 text-green-700'
+              : 'border-red-200 bg-red-50 text-red-700',
+          )}
+        >
+          {item.cpf_valido ? (
+            <CheckCircle2 className="w-3.5 h-3.5" />
+          ) : (
+            <XCircle className="w-3.5 h-3.5" />
+          )}
+          {item.cpf_valido ? 'CPF Válido' : 'CPF Inválido'}
+        </Badge>
+      ) : (
+        <Badge
+          variant="outline"
+          className={cn(
+            'flex items-center gap-1.5 py-1',
+            item.cnpj_valido
+              ? 'border-green-200 bg-green-50 text-green-700'
+              : 'border-red-200 bg-red-50 text-red-700',
+          )}
+        >
+          {item.cnpj_valido ? (
+            <CheckCircle2 className="w-3.5 h-3.5" />
+          ) : (
+            <XCircle className="w-3.5 h-3.5" />
+          )}
+          {item.cnpj_valido ? 'CNPJ Válido' : 'CNPJ Inválido'}
+        </Badge>
+      )}
+
+      <Badge
+        variant="outline"
+        className={cn(
+          'flex items-center gap-1.5 py-1',
+          item.documentacao_completa
+            ? 'border-green-200 bg-green-50 text-green-700'
+            : 'border-red-200 bg-red-50 text-red-700',
+        )}
+      >
+        {item.documentacao_completa ? (
+          <CheckCircle2 className="w-3.5 h-3.5" />
+        ) : (
+          <XCircle className="w-3.5 h-3.5" />
+        )}
+        {item.documentacao_completa ? 'Documentação Completa' : 'Documentação Incompleta'}
+      </Badge>
+
+      <Badge
+        variant="outline"
+        className={cn(
+          'flex items-center gap-1.5 py-1',
+          item.nivel_risco === 'baixo'
+            ? 'border-green-200 bg-green-50 text-green-700'
+            : item.nivel_risco === 'médio'
+              ? 'border-yellow-300 bg-yellow-50 text-yellow-800'
+              : 'border-red-200 bg-red-50 text-red-700',
+        )}
+      >
+        {item.nivel_risco === 'baixo' ? (
+          <CheckCircle2 className="w-3.5 h-3.5" />
+        ) : item.nivel_risco === 'médio' ? (
+          <AlertTriangle className="w-3.5 h-3.5" />
+        ) : (
+          <ShieldAlert className="w-3.5 h-3.5" />
+        )}
+        Risco{' '}
+        {item.nivel_risco
+          ? item.nivel_risco.charAt(0).toUpperCase() + item.nivel_risco.slice(1)
+          : 'Desconhecido'}
+      </Badge>
+
+      <Badge
+        variant="outline"
+        className={cn(
+          'flex items-center gap-1.5 py-1',
+          item.dados_consistentes
+            ? 'border-green-200 bg-green-50 text-green-700'
+            : 'border-red-200 bg-red-50 text-red-700',
+        )}
+      >
+        {item.dados_consistentes ? (
+          <CheckCircle2 className="w-3.5 h-3.5" />
+        ) : (
+          <XCircle className="w-3.5 h-3.5" />
+        )}
+        {item.dados_consistentes ? 'Dados Consistentes' : 'Dados Inconsistentes'}
+      </Badge>
+
+      <Badge
+        variant="outline"
+        className={cn(
+          'flex items-center gap-1.5 py-1',
+          item.idade && item.idade >= 18
+            ? 'border-slate-200 bg-white text-slate-700'
+            : 'border-red-200 bg-red-50 text-red-700',
+        )}
+      >
+        {item.idade && item.idade >= 18
+          ? `${item.tipo === 'PJ' ? 'Representante: ' : ''}${item.idade} anos`
+          : 'Menor de idade ⚠️'}
+      </Badge>
+    </div>
+  )
+}
 
 export const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="mb-6 last:mb-0">

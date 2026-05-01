@@ -13,8 +13,11 @@ import { StatCard } from './StatCard'
 import { PreCadastroTable } from './PreCadastroTable'
 import { PreCadastroModal } from './PreCadastroModal'
 import { Button } from '@/components/ui/button'
-import { LogOut, Download } from 'lucide-react'
+import { LogOut, Download, Filter } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
   Pagination,
   PaginationContent,
@@ -35,12 +38,15 @@ export function AdminDashboard() {
   const [selectedItem, setSelectedItem] = useState<any>(null)
   const [filterTipo, setFilterTipo] = useState('todos')
   const [filterData, setFilterData] = useState('todos')
+  const [filterValidDoc, setFilterValidDoc] = useState(false)
+  const [filterCompleteDocs, setFilterCompleteDocs] = useState(false)
+  const [filterLowRisk, setFilterLowRisk] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const { signOut } = useAuth()
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [activeTab, filterTipo, filterData, search])
+  }, [activeTab, filterTipo, filterData, search, filterValidDoc, filterCompleteDocs, filterLowRisk])
   useEffect(() => {
     fetchData()
   }, [])
@@ -68,6 +74,14 @@ export function AdminDashboard() {
           if (filterData === '7d' && diffDays > 7) return false
           if (filterData === '30d' && diffDays > 30) return false
         }
+
+        if (filterValidDoc) {
+          if (item.tipo === 'PF' && !item.cpf_valido) return false
+          if (item.tipo === 'PJ' && !item.cnpj_valido) return false
+        }
+        if (filterCompleteDocs && !item.documentacao_completa) return false
+        if (filterLowRisk && item.nivel_risco !== 'baixo') return false
+
         if (search) {
           const s = search.toLowerCase()
           return (
@@ -80,7 +94,16 @@ export function AdminDashboard() {
         }
         return true
       }),
-    [data, activeTab, filterTipo, filterData, search],
+    [
+      data,
+      activeTab,
+      filterTipo,
+      filterData,
+      search,
+      filterValidDoc,
+      filterCompleteDocs,
+      filterLowRisk,
+    ],
   )
 
   const stats = useMemo(
@@ -202,6 +225,51 @@ export function AdminDashboard() {
               </TabsTrigger>
             </TabsList>
             <div className="flex flex-col md:flex-row gap-3 w-full xl:w-auto">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full md:w-auto border-slate-200">
+                    <Filter className="w-4 h-4 mr-2" />
+                    Validações
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80" align="end">
+                  <div className="space-y-4">
+                    <h4 className="font-medium text-sm text-[#1A3A52]">Filtrar por Validações</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="filter-doc"
+                          checked={filterValidDoc}
+                          onCheckedChange={(c) => setFilterValidDoc(!!c)}
+                        />
+                        <Label htmlFor="filter-doc" className="cursor-pointer">
+                          Apenas CPF/CNPJ válido
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="filter-comp"
+                          checked={filterCompleteDocs}
+                          onCheckedChange={(c) => setFilterCompleteDocs(!!c)}
+                        />
+                        <Label htmlFor="filter-comp" className="cursor-pointer">
+                          Apenas documentação completa
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="filter-risk"
+                          checked={filterLowRisk}
+                          onCheckedChange={(c) => setFilterLowRisk(!!c)}
+                        />
+                        <Label htmlFor="filter-risk" className="cursor-pointer">
+                          Apenas risco baixo
+                        </Label>
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
               <Button
                 variant="outline"
                 onClick={exportToCSV}

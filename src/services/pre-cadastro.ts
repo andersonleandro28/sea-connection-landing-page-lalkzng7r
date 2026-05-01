@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase/client'
+import { isValidCPF, isValidCNPJ, analyzeRisk, calculateAgeFromDateString } from '@/lib/validators'
 
 export async function submitPreCadastro(data: any) {
   const upload = async (file: File | null | undefined, folder: string) => {
@@ -18,15 +19,47 @@ export async function submitPreCadastro(data: any) {
     let contrato_social_url = null
     let documento_identidade_url = null
 
+    let cpf_valido = false
+    let cnpj_valido = false
+    let nivel_risco = 'alto'
+    let idade = 0
+    let documentacao_completa = false
+    let dados_consistentes = true
+
     if (data.type === 'PF') {
       documento_identidade_url = await upload(data.documentoIdentidade, 'identidade')
       comprovante_renda_url = await upload(data.comprovanteRenda, 'renda')
       comprovante_endereco_url = await upload(data.comprovanteEndereco, 'endereco')
       selfie_documento_url = await upload(data.selfie, 'selfie')
+
+      cpf_valido = isValidCPF(data.cpf || '')
+      nivel_risco = analyzeRisk(data.descricao || '')
+      idade = calculateAgeFromDateString(data.dataNascimento || '')
+      documentacao_completa = !!(
+        documento_identidade_url &&
+        comprovante_renda_url &&
+        comprovante_endereco_url &&
+        selfie_documento_url
+      )
+      dados_consistentes = true
     } else {
       contrato_social_url = await upload(data.contratoSocial, 'contrato')
       comprovante_endereco_url = await upload(data.comprovanteEndereco, 'endereco')
       selfie_documento_url = await upload(data.selfieResponsavel, 'selfie')
+
+      cnpj_valido = isValidCNPJ(data.cnpj || '')
+      cpf_valido = isValidCPF(data.cpfRepresentante || '')
+      nivel_risco = analyzeRisk(data.descricao || '')
+      idade = calculateAgeFromDateString(data.dataNascimento || '')
+      documentacao_completa = !!(
+        contrato_social_url &&
+        comprovante_endereco_url &&
+        selfie_documento_url
+      )
+
+      if (data.email === data.emailRepresentante) dados_consistentes = false
+      if (data.telefone === data.celularRepresentante) dados_consistentes = false
+      if (data.cnpj === data.cpfRepresentante) dados_consistentes = false
     }
 
     const dbData = {
@@ -62,6 +95,13 @@ export async function submitPreCadastro(data: any) {
       bairro: data.bairro || null,
       cidade: data.cidade || null,
       estado: data.estado || null,
+      cpf_valido,
+      cnpj_valido,
+      nivel_risco,
+      idade,
+      documentacao_completa,
+      dados_consistentes,
+      data_validacao: new Date().toISOString(),
     }
 
     const { error } = await supabase.from('pre_cadastros').insert(dbData)
