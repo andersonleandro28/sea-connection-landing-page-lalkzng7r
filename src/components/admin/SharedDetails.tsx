@@ -1,134 +1,14 @@
-import {
-  FileText,
-  ExternalLink,
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
-  ShieldAlert,
-} from 'lucide-react'
+import { FileText, ExternalLink, CheckCircle2, XCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
-
-export const ValidationBadges = ({ item }: { item: any }) => {
-  return (
-    <div className="flex flex-wrap gap-2 mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-      {item.tipo === 'PF' ? (
-        <Badge
-          variant="outline"
-          className={cn(
-            'flex items-center gap-1.5 py-1',
-            item.cpf_valido
-              ? 'border-green-200 bg-green-50 text-green-700'
-              : 'border-red-200 bg-red-50 text-red-700',
-          )}
-        >
-          {item.cpf_valido ? (
-            <CheckCircle2 className="w-3.5 h-3.5" />
-          ) : (
-            <XCircle className="w-3.5 h-3.5" />
-          )}
-          {item.cpf_valido ? 'CPF Válido' : 'CPF Inválido'}
-        </Badge>
-      ) : (
-        <Badge
-          variant="outline"
-          className={cn(
-            'flex items-center gap-1.5 py-1',
-            item.cnpj_valido
-              ? 'border-green-200 bg-green-50 text-green-700'
-              : 'border-red-200 bg-red-50 text-red-700',
-          )}
-        >
-          {item.cnpj_valido ? (
-            <CheckCircle2 className="w-3.5 h-3.5" />
-          ) : (
-            <XCircle className="w-3.5 h-3.5" />
-          )}
-          {item.cnpj_valido ? 'CNPJ Válido' : 'CNPJ Inválido'}
-        </Badge>
-      )}
-
-      <Badge
-        variant="outline"
-        className={cn(
-          'flex items-center gap-1.5 py-1',
-          item.documentacao_completa
-            ? 'border-green-200 bg-green-50 text-green-700'
-            : 'border-red-200 bg-red-50 text-red-700',
-        )}
-      >
-        {item.documentacao_completa ? (
-          <CheckCircle2 className="w-3.5 h-3.5" />
-        ) : (
-          <XCircle className="w-3.5 h-3.5" />
-        )}
-        {item.documentacao_completa ? 'Documentação Completa' : 'Documentação Incompleta'}
-      </Badge>
-
-      <Badge
-        variant="outline"
-        className={cn(
-          'flex items-center gap-1.5 py-1',
-          item.nivel_risco === 'baixo'
-            ? 'border-green-200 bg-green-50 text-green-700'
-            : item.nivel_risco === 'médio'
-              ? 'border-yellow-300 bg-yellow-50 text-yellow-800'
-              : 'border-red-200 bg-red-50 text-red-700',
-        )}
-      >
-        {item.nivel_risco === 'baixo' ? (
-          <CheckCircle2 className="w-3.5 h-3.5" />
-        ) : item.nivel_risco === 'médio' ? (
-          <AlertTriangle className="w-3.5 h-3.5" />
-        ) : (
-          <ShieldAlert className="w-3.5 h-3.5" />
-        )}
-        Risco{' '}
-        {item.nivel_risco
-          ? item.nivel_risco.charAt(0).toUpperCase() + item.nivel_risco.slice(1)
-          : 'Desconhecido'}
-      </Badge>
-
-      <Badge
-        variant="outline"
-        className={cn(
-          'flex items-center gap-1.5 py-1',
-          item.dados_consistentes
-            ? 'border-green-200 bg-green-50 text-green-700'
-            : 'border-red-200 bg-red-50 text-red-700',
-        )}
-      >
-        {item.dados_consistentes ? (
-          <CheckCircle2 className="w-3.5 h-3.5" />
-        ) : (
-          <XCircle className="w-3.5 h-3.5" />
-        )}
-        {item.dados_consistentes ? 'Dados Consistentes' : 'Dados Inconsistentes'}
-      </Badge>
-
-      <Badge
-        variant="outline"
-        className={cn(
-          'flex items-center gap-1.5 py-1',
-          item.idade && item.idade >= 18
-            ? 'border-slate-200 bg-white text-slate-700'
-            : 'border-red-200 bg-red-50 text-red-700',
-        )}
-      >
-        {item.idade && item.idade >= 18
-          ? `${item.tipo === 'PJ' ? 'Representante: ' : ''}${item.idade} anos`
-          : 'Menor de idade ⚠️'}
-      </Badge>
-    </div>
-  )
-}
 
 export const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <div className="mb-6 last:mb-0">
+  <div className="mb-8">
     <h3 className="font-semibold text-sm text-[#1A3A52] uppercase tracking-wider border-b pb-2 mb-4">
       {title}
     </h3>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
+      {children}
+    </div>
   </div>
 )
 
@@ -141,9 +21,11 @@ export const Detail = ({
   value: React.ReactNode
   fullWidth?: boolean
 }) => (
-  <div className={cn('mb-2', fullWidth && 'md:col-span-2')}>
-    <p className="text-xs text-gray-500 mb-0.5">{label}</p>
-    <div className="text-sm font-medium text-gray-900">{value || '-'}</div>
+  <div className={cn('mb-1', fullWidth && 'md:col-span-2')}>
+    <p className="text-xs text-slate-500 mb-1 font-medium">{label}</p>
+    <div className="text-sm font-semibold text-slate-900 bg-slate-50 px-3 py-2 rounded-md border border-slate-100">
+      {value || '-'}
+    </div>
   </div>
 )
 
@@ -156,22 +38,22 @@ export const ValidableDetail = ({
   value: string
   isValid: boolean
 }) => (
-  <div className="mb-2">
-    <p className="text-xs text-gray-500 mb-1">{label}</p>
+  <div className="mb-1">
+    <p className="text-xs text-slate-500 mb-1 font-medium">{label}</p>
     <div
       className={cn(
-        'inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border',
-        isValid ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200',
+        'inline-flex items-center gap-2 px-3 py-2 rounded-md border w-full justify-between',
+        isValid ? 'bg-green-50/50 border-green-200' : 'bg-red-50/50 border-red-200',
       )}
     >
-      <span className={cn('text-sm font-medium', isValid ? 'text-green-700' : 'text-red-700')}>
+      <span className={cn('text-sm font-bold', isValid ? 'text-green-800' : 'text-red-800')}>
         {value || '-'}
       </span>
       {value &&
         (isValid ? (
-          <CheckCircle2 className="w-4 h-4 text-green-600" />
+          <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
         ) : (
-          <XCircle className="w-4 h-4 text-red-600" />
+          <XCircle className="w-4 h-4 text-red-600 shrink-0" />
         ))}
     </div>
   </div>
@@ -186,24 +68,30 @@ export const DocLink = ({
   url: string | null
   hint?: string
 }) => (
-  <div className="mb-4 bg-slate-50 p-3 rounded-lg border flex flex-col justify-center">
-    <p className="text-xs text-gray-500 mb-2 font-medium">{label}</p>
+  <div className="mb-2 bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-center transition-all hover:shadow-md">
+    <p className="text-xs text-slate-500 mb-3 font-bold uppercase tracking-wide">{label}</p>
     {url ? (
       <a
         href={url}
         target="_blank"
         rel="noreferrer"
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-[#00B4D8] hover:text-[#008ba8] bg-white px-3 py-2 rounded-md transition-colors border border-gray-200 w-full justify-between shadow-sm hover:shadow"
+        className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00B4D8] hover:text-white bg-white hover:bg-[#00B4D8] px-4 py-2.5 rounded-lg transition-colors border border-slate-200 hover:border-[#00B4D8] w-full justify-between shadow-sm group"
       >
         <span className="flex items-center gap-2">
-          <FileText className="w-4 h-4" /> Visualizar Documento
+          <FileText className="w-4 h-4 group-hover:text-white" /> Visualizar Documento
         </span>
-        <ExternalLink className="w-3 h-3" />
+        <ExternalLink className="w-4 h-4 opacity-50 group-hover:opacity-100" />
       </a>
     ) : (
-      <span className="text-sm text-gray-400 italic block py-1">Documento não enviado</span>
+      <span className="text-sm font-medium text-slate-400 italic block py-2 bg-slate-100/50 rounded-lg px-3 border border-dashed border-slate-200">
+        Documento não enviado
+      </span>
     )}
-    {hint && <p className="text-[11px] text-[#B06000] mt-2 leading-tight">{hint}</p>}
+    {hint && (
+      <p className="text-[11px] text-[#B06000] mt-3 font-medium leading-relaxed bg-yellow-50 p-2 rounded border border-yellow-100">
+        {hint}
+      </p>
+    )}
   </div>
 )
 

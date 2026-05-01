@@ -1,23 +1,13 @@
-import {
-  Section,
-  Detail,
-  ValidableDetail,
-  DocLink,
-  calculateAge,
-  ValidationBadges,
-} from './SharedDetails'
-import { isValidCNPJ, isValidCPF } from '@/lib/validators'
+import { Section, Detail, ValidableDetail, DocLink, calculateAge } from './SharedDetails'
 
 export function PreCadastroDetailsPJ({ item }: { item: any }) {
   const age = calculateAge(item.data_nascimento_representante)
 
   return (
-    <div className="space-y-6">
-      <ValidationBadges item={item} />
-
-      <Section title="Seção 1 — Dados da Empresa">
+    <div className="space-y-8">
+      <Section title="Seção 3 — Dados da Empresa">
         <Detail label="Razão Social" value={item.razao_social} />
-        <ValidableDetail label="CNPJ" value={item.cnpj} isValid={isValidCNPJ(item.cnpj || '')} />
+        <ValidableDetail label="CNPJ" value={item.cnpj} isValid={item.cnpj_valido} />
         <Detail label="Ramo de Atividade" value={item.ramo_atividade} />
         <Detail label="Faturamento Mensal" value={item.faturamento_mensal} />
         <Detail label="Telefone da Empresa" value={item.telefone_empresa} />
@@ -29,13 +19,9 @@ export function PreCadastroDetailsPJ({ item }: { item: any }) {
         />
       </Section>
 
-      <Section title="Seção 2 — Dados do Representante">
+      <Section title="Dados do Representante">
         <Detail label="Nome" value={item.nome_representante} />
-        <ValidableDetail
-          label="CPF"
-          value={item.cpf_representante}
-          isValid={isValidCPF(item.cpf_representante || '')}
-        />
+        <ValidableDetail label="CPF" value={item.cpf_representante} isValid={item.cpf_valido} />
         <Detail
           label="Data de Nascimento"
           value={`${item.data_nascimento_representante} ${age !== null ? `(${age} anos)` : ''}`}
@@ -44,7 +30,7 @@ export function PreCadastroDetailsPJ({ item }: { item: any }) {
         <Detail label="Email" value={item.email_representante} />
       </Section>
 
-      <Section title="Seção 3 — Endereço">
+      <Section title="Endereço Comercial">
         <Detail label="CEP" value={item.cep} />
         <Detail label="Logradouro" value={item.logradouro} />
         <Detail label="Número" value={item.numero} />
@@ -53,7 +39,7 @@ export function PreCadastroDetailsPJ({ item }: { item: any }) {
         <Detail label="Cidade/UF" value={item.cidade ? `${item.cidade} / ${item.estado}` : ''} />
       </Section>
 
-      <Section title="Seção 4 — Documentos">
+      <Section title="Seção 4 — Documentos Anexados">
         <DocLink label="Contrato Social" url={item.contrato_social_url} />
         <DocLink label="Comprovante de Endereço" url={item.comprovante_endereco_url} />
         <DocLink
