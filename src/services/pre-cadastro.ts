@@ -62,6 +62,48 @@ export async function submitPreCadastro(data: any) {
       if (data.cnpj === data.cpfRepresentante) dados_consistentes = false
     }
 
+    let score = 0
+    let docCount = 0
+    let totalDocs = data.type === 'PF' ? 4 : 3
+
+    if (data.type === 'PF') {
+      if (documento_identidade_url) docCount++
+      if (comprovante_renda_url) docCount++
+      if (comprovante_endereco_url) docCount++
+      if (selfie_documento_url) docCount++
+    } else {
+      if (contrato_social_url) docCount++
+      if (comprovante_endereco_url) docCount++
+      if (selfie_documento_url) docCount++
+    }
+
+    if (docCount === totalDocs) score += 30
+    else if (docCount === totalDocs - 1) score += 20
+
+    if (data.type === 'PF') {
+      if (cpf_valido) score += 20
+    } else {
+      if (cnpj_valido && cpf_valido) score += 20
+      else if (cnpj_valido || cpf_valido) score += 10
+    }
+
+    if (dados_consistentes) score += 15
+
+    if (nivel_risco === 'baixo') score += 15
+    else if (nivel_risco === 'médio') score += 8
+
+    if (idade >= 18) score += 10
+
+    let isHighIncome = false
+    if (data.type === 'PF') {
+      if (data.renda && !data.renda.toLowerCase().includes('até r$ 2.000')) isHighIncome = true
+    } else {
+      if (data.faturamento && !data.faturamento.toLowerCase().includes('até r$ 10.000'))
+        isHighIncome = true
+    }
+    if (isHighIncome) score += 10
+    else score += 5
+
     const dbData = {
       tipo: data.type,
       nome_completo: data.nome || null,
@@ -102,6 +144,7 @@ export async function submitPreCadastro(data: any) {
       documentacao_completa,
       dados_consistentes,
       data_validacao: new Date().toISOString(),
+      score,
     }
 
     const { error } = await supabase.from('pre_cadastros').insert(dbData)

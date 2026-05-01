@@ -55,6 +55,7 @@ export function PreCadastroTable({ data, loading, onRowClick }: any) {
               <TableHead>Email</TableHead>
               <TableHead>Telefone</TableHead>
               <TableHead>Data</TableHead>
+              <TableHead>Score</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
@@ -78,6 +79,9 @@ export function PreCadastroTable({ data, loading, onRowClick }: any) {
                 <TableCell className="text-gray-600">{item.telefone}</TableCell>
                 <TableCell className="text-gray-600">
                   {format(new Date(item.created_at), 'dd/MM/yyyy HH:mm')}
+                </TableCell>
+                <TableCell>
+                  <ScoreBadge score={item.score || 0} />
                 </TableCell>
                 <TableCell>
                   <StatusBadge status={item.status} />
@@ -104,7 +108,10 @@ export function PreCadastroTable({ data, loading, onRowClick }: any) {
               <span className="font-bold text-[#1A3A52] leading-tight pr-2">
                 {item.tipo === 'PF' ? item.nome_completo : item.razao_social}
               </span>
-              <StatusBadge status={item.status} />
+              <div className="flex flex-col gap-1 items-end">
+                <StatusBadge status={item.status} />
+                <ScoreBadge score={item.score || 0} />
+              </div>
             </div>
             <div className="text-sm text-gray-600 space-y-1 mb-2">
               <div className="flex items-center gap-2">
@@ -139,6 +146,26 @@ function StatusBadge({ status }: { status: string }) {
       className="bg-[#FEF7E0] text-[#B06000] hover:bg-[#FEF7E0] border-transparent"
     >
       Pendente
+    </Badge>
+  )
+}
+
+function ScoreBadge({ score }: { score: number }) {
+  if (score >= 67)
+    return (
+      <Badge className="bg-[#E6F4EA] text-[#137333] hover:bg-[#E6F4EA] border-transparent">
+        {score}/100
+      </Badge>
+    )
+  if (score >= 34)
+    return (
+      <Badge className="bg-[#FEF7E0] text-[#B06000] hover:bg-[#FEF7E0] border-transparent">
+        {score}/100
+      </Badge>
+    )
+  return (
+    <Badge className="bg-red-100 text-red-700 hover:bg-red-100 border-transparent">
+      {score}/100
     </Badge>
   )
 }

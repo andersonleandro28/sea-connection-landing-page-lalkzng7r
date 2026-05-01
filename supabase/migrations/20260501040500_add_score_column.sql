@@ -1,0 +1,2 @@
+ALTER TABLE public.pre_cadastros 
+ADD COLUMN IF NOT EXISTS score INTEGER DEFAULT 0;

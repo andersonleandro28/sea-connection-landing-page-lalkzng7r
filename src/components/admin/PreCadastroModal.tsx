@@ -7,6 +7,57 @@ import { toast } from 'sonner'
 import { PreCadastroDetailsPF } from './PreCadastroDetailsPF'
 import { PreCadastroDetailsPJ } from './PreCadastroDetailsPJ'
 
+function ScoreProgress({ score }: { score: number }) {
+  let colorClass = 'bg-[#F56565]'
+  let textClass = 'text-[#C53030]'
+  let recommendation = '❌ Recomendado para rejeição'
+
+  if (score >= 80) {
+    recommendation = '✅ Recomendado para aprovação automática'
+  } else if (score >= 60) {
+    recommendation = '⚠️ Análise recomendada'
+  }
+
+  if (score >= 67) {
+    colorClass = 'bg-[#48BB78]'
+    textClass = 'text-[#48BB78]'
+  } else if (score >= 34) {
+    colorClass = 'bg-[#ECC94B]'
+    textClass = 'text-[#B7791F]'
+  }
+
+  return (
+    <div className="mb-8 p-6 bg-slate-50 border border-slate-200 rounded-xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+        <div>
+          <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">
+            Score de Qualificação
+          </h3>
+          <div className="flex items-baseline gap-2">
+            <span className={`text-4xl font-extrabold ${textClass}`}>{score}</span>
+            <span className="text-slate-400 font-medium">/ 100</span>
+          </div>
+        </div>
+        <div className="bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm">
+          <span className="text-sm font-medium text-slate-700">{recommendation}</span>
+        </div>
+      </div>
+      <div className="w-full bg-slate-200 h-3 rounded-full overflow-hidden">
+        <div
+          className={`h-full ${colorClass} transition-all duration-1000 ease-out`}
+          style={{ width: `${score}%` }}
+        ></div>
+      </div>
+      <div className="flex justify-between mt-2 text-xs font-medium text-slate-400">
+        <span>0</span>
+        <span>34</span>
+        <span>67</span>
+        <span>100</span>
+      </div>
+    </div>
+  )
+}
+
 export function PreCadastroModal({ item, onClose, onUpdate }: any) {
   const [isRejecting, setIsRejecting] = useState(false)
   const [motivo, setMotivo] = useState('')
@@ -88,6 +139,8 @@ export function PreCadastroModal({ item, onClose, onUpdate }: any) {
               </div>
             </div>
           </DialogHeader>
+
+          <ScoreProgress score={item.score || 0} />
 
           {item.tipo === 'PF' ? (
             <PreCadastroDetailsPF item={item} />

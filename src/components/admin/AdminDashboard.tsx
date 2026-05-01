@@ -41,12 +41,22 @@ export function AdminDashboard() {
   const [filterValidDoc, setFilterValidDoc] = useState(false)
   const [filterCompleteDocs, setFilterCompleteDocs] = useState(false)
   const [filterLowRisk, setFilterLowRisk] = useState(false)
+  const [filterScore, setFilterScore] = useState('todos')
   const [currentPage, setCurrentPage] = useState(1)
   const { signOut } = useAuth()
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [activeTab, filterTipo, filterData, search, filterValidDoc, filterCompleteDocs, filterLowRisk])
+  }, [
+    activeTab,
+    filterTipo,
+    filterData,
+    filterScore,
+    search,
+    filterValidDoc,
+    filterCompleteDocs,
+    filterLowRisk,
+  ])
   useEffect(() => {
     fetchData()
   }, [])
@@ -56,6 +66,7 @@ export function AdminDashboard() {
     const { data: items } = await supabase
       .from('pre_cadastros')
       .select('*')
+      .order('score', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false })
     if (items) setData(items)
     setLoading(false)
@@ -82,6 +93,13 @@ export function AdminDashboard() {
         if (filterCompleteDocs && !item.documentacao_completa) return false
         if (filterLowRisk && item.nivel_risco !== 'baixo') return false
 
+        if (filterScore !== 'todos') {
+          const score = item.score || 0
+          if (filterScore === '>=70' && score < 70) return false
+          if (filterScore === '40-70' && (score < 40 || score > 70)) return false
+          if (filterScore === '<40' && score >= 40) return false
+        }
+
         if (search) {
           const s = search.toLowerCase()
           return (
@@ -103,6 +121,7 @@ export function AdminDashboard() {
       filterValidDoc,
       filterCompleteDocs,
       filterLowRisk,
+      filterScore,
     ],
   )
 
@@ -296,6 +315,17 @@ export function AdminDashboard() {
                   <SelectItem value="todos">Todo período</SelectItem>
                   <SelectItem value="7d">Últimos 7 dias</SelectItem>
                   <SelectItem value="30d">Últimos 30 dias</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={filterScore} onValueChange={setFilterScore}>
+                <SelectTrigger className="w-full md:w-[150px]">
+                  <SelectValue placeholder="Score" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="todos">Todos Scores</SelectItem>
+                  <SelectItem value=">=70">&ge; 70</SelectItem>
+                  <SelectItem value="40-70">40 - 70</SelectItem>
+                  <SelectItem value="<40">&lt; 40</SelectItem>
                 </SelectContent>
               </Select>
               <Input
