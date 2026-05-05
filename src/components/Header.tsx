@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import logoUrl from '@/assets/sea-connection-investimentos-s.a.ab60f.png'
 
 export function Header() {
   const scrollToForm = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
@@ -10,13 +11,13 @@ export function Header() {
   return (
     <header className="sticky top-0 left-0 right-0 z-50 bg-white shadow-subtle transition-all">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-3">
           <img
-            src="https://img.usecurling.com/i?q=waves&color=blue&shape=fill"
-            alt="Sea Connection Logo"
-            className="h-[40px] w-[40px] object-contain"
+            src={logoUrl}
+            alt="Sea Connection Investimentos Logo"
+            className="h-12 w-auto object-contain"
           />
-          <span className="font-bold text-xl text-sea-navy">Sea Connection</span>
+          <span className="font-bold text-xl text-[#1A3A52] hidden sm:block">Sea Connection</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-[32px] text-[14px] font-medium text-[#333333]">
