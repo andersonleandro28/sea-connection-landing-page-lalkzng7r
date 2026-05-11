@@ -66,6 +66,9 @@ const pjSchema = z.object({
   cidade: z.string().min(2, 'Obrigatório'),
   estado: z.string().min(2, 'Obrigatório'),
   contratoSocial: z.any().refine((val) => val != null, 'Obrigatório'),
+  cartaoCnpj: z.any().refine((val) => val != null, 'Obrigatório'),
+  documentoIdentidadeRepresentante: z.any().refine((val) => val != null, 'Obrigatório'),
+  comprovanteEnderecoRepresentante: z.any().refine((val) => val != null, 'Obrigatório'),
   selfieResponsavel: z.any().refine((val) => val != null, 'Obrigatório'),
 })
 

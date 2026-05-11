@@ -586,7 +586,7 @@ export function PJFields() {
       <hr className="border-[#E0E0E0]" />
 
       <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
-        <SectionTitle title="Documentação" step={4} />
+        <SectionTitle title="Documentação da Empresa" step={4} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px] stagger-fields">
           <FormField
             control={control}
@@ -609,7 +609,72 @@ export function PJFields() {
           />
           <FormField
             control={control}
+            name="cartaoCnpj"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel className="text-[14px] font-bold text-[#1A3A52]">
+                  Cartão CNPJ *
+                </FormLabel>
+                <FormControl>
+                  <FileUpload
+                    value={field.value}
+                    onChange={field.onChange}
+                    isError={fieldState.invalid && fieldState.isTouched}
+                  />
+                </FormControl>
+                <FormMessage className="text-[12px] text-[#E53E3E]" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
             name="comprovanteEndereco"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel className="text-[14px] font-bold text-[#1A3A52]">
+                  Comprovante de Endereço *
+                </FormLabel>
+                <FormControl>
+                  <FileUpload
+                    value={field.value}
+                    onChange={field.onChange}
+                    isError={fieldState.invalid && fieldState.isTouched}
+                  />
+                </FormControl>
+                <FormMessage className="text-[12px] text-[#E53E3E]" />
+              </FormItem>
+            )}
+          />
+        </div>
+      </div>
+
+      <hr className="border-[#E0E0E0]" />
+
+      <div className="bg-white border border-[#E0E0E0] rounded-[8px] p-[24px] space-y-[16px]">
+        <SectionTitle title="Documentação do Representante Legal" step={5} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px] stagger-fields">
+          <FormField
+            control={control}
+            name="documentoIdentidadeRepresentante"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel className="text-[14px] font-bold text-[#1A3A52]">
+                  Documento de Identidade (RG/CNH) *
+                </FormLabel>
+                <FormControl>
+                  <FileUpload
+                    value={field.value}
+                    onChange={field.onChange}
+                    isError={fieldState.invalid && fieldState.isTouched}
+                  />
+                </FormControl>
+                <FormMessage className="text-[12px] text-[#E53E3E]" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="comprovanteEnderecoRepresentante"
             render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel className="text-[14px] font-bold text-[#1A3A52]">

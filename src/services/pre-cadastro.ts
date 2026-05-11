@@ -18,6 +18,10 @@ export async function submitPreCadastro(data: any) {
     let selfie_documento_url = null
     let contrato_social_url = null
     let documento_identidade_url = null
+    let cartao_cnpj_url = null
+    let documento_identidade_representante_url = null
+    let comprovante_endereco_representante_url = null
+    let selfie_representante_documento_url = null
 
     let cpf_valido = false
     let cnpj_valido = false
@@ -45,7 +49,18 @@ export async function submitPreCadastro(data: any) {
     } else {
       contrato_social_url = await upload(data.contratoSocial, 'contrato')
       comprovante_endereco_url = await upload(data.comprovanteEndereco, 'endereco')
-      selfie_documento_url = await upload(data.selfieResponsavel, 'selfie')
+      cartao_cnpj_url = await upload(data.cartaoCnpj, 'cnpj')
+      documento_identidade_representante_url = await upload(
+        data.documentoIdentidadeRepresentante,
+        'identidade_rep',
+      )
+      comprovante_endereco_representante_url = await upload(
+        data.comprovanteEnderecoRepresentante,
+        'endereco_rep',
+      )
+      selfie_representante_documento_url = await upload(data.selfieResponsavel, 'selfie_rep')
+
+      selfie_documento_url = selfie_representante_documento_url
 
       cnpj_valido = isValidCNPJ(data.cnpj || '')
       cpf_valido = isValidCPF(data.cpfRepresentante || '')
@@ -54,7 +69,10 @@ export async function submitPreCadastro(data: any) {
       documentacao_completa = !!(
         contrato_social_url &&
         comprovante_endereco_url &&
-        selfie_documento_url
+        cartao_cnpj_url &&
+        documento_identidade_representante_url &&
+        comprovante_endereco_representante_url &&
+        selfie_representante_documento_url
       )
 
       if (data.email === data.emailRepresentante) dados_consistentes = false
@@ -64,7 +82,7 @@ export async function submitPreCadastro(data: any) {
 
     let score = 0
     let docCount = 0
-    let totalDocs = data.type === 'PF' ? 4 : 3
+    let totalDocs = data.type === 'PF' ? 4 : 6
 
     if (data.type === 'PF') {
       if (documento_identidade_url) docCount++
@@ -74,7 +92,10 @@ export async function submitPreCadastro(data: any) {
     } else {
       if (contrato_social_url) docCount++
       if (comprovante_endereco_url) docCount++
-      if (selfie_documento_url) docCount++
+      if (cartao_cnpj_url) docCount++
+      if (documento_identidade_representante_url) docCount++
+      if (comprovante_endereco_representante_url) docCount++
+      if (selfie_representante_documento_url) docCount++
     }
 
     if (docCount === totalDocs) score += 30
@@ -120,6 +141,10 @@ export async function submitPreCadastro(data: any) {
       selfie_documento_url,
       contrato_social_url,
       documento_identidade_url,
+      cartao_cnpj_url,
+      documento_identidade_representante_url,
+      comprovante_endereco_representante_url,
+      selfie_representante_documento_url,
       status: 'pendente',
       descricao_estabelecimento: data.descricao || null,
       telefone_empresa: data.type === 'PJ' ? data.telefone : null,

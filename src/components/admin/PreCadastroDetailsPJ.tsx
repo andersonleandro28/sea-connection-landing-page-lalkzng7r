@@ -39,12 +39,24 @@ export function PreCadastroDetailsPJ({ item }: { item: any }) {
         <Detail label="Cidade/UF" value={item.cidade ? `${item.cidade} / ${item.estado}` : ''} />
       </Section>
 
-      <Section title="Seção 4 — Documentos Anexados">
+      <Section title="Seção 4 — Documentação da Empresa">
         <DocLink label="Contrato Social" url={item.contrato_social_url} />
+        <DocLink label="Cartão CNPJ" url={item.cartao_cnpj_url} />
         <DocLink label="Comprovante de Endereço" url={item.comprovante_endereco_url} />
+      </Section>
+
+      <Section title="Seção 5 — Documentação do Representante Legal">
+        <DocLink
+          label="Documento de Identidade (RG/CNH)"
+          url={item.documento_identidade_representante_url}
+        />
+        <DocLink
+          label="Comprovante de Endereço"
+          url={item.comprovante_endereco_representante_url}
+        />
         <DocLink
           label="Selfie do Representante"
-          url={item.selfie_documento_url}
+          url={item.selfie_representante_documento_url || item.selfie_documento_url}
           hint="Verificar se a pessoa está segurando o documento de identificação de forma clara e legível."
         />
       </Section>
