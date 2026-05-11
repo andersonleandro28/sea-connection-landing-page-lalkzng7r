@@ -4,8 +4,8 @@ import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
 
 interface FileUploadProps {
-  value?: File | null
-  onChange: (file: File | null) => void
+  value?: File | null | string
+  onChange: (file: File | null | string) => void
   accept?: string
   maxSize?: number // in MB
   label?: string
@@ -70,7 +70,7 @@ export function FileUpload({
     <div className="space-y-2">
       {label && <p className="text-[12px] text-[#999999] mb-2">{label}</p>}
 
-      {!value ? (
+      {!value || value === '' ? (
         <div
           className={cn(
             'relative border-2 border-dashed rounded-[8px] p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200',
@@ -117,33 +117,43 @@ export function FileUpload({
                 <File className="h-5 w-5" />
               </div>
               <div className="truncate">
-                <p className="text-[14px] font-medium text-[#333333] truncate">{value.name}</p>
-                <p className="text-[12px] text-[#999999]">
-                  {(value.size / 1024 / 1024).toFixed(2)} MB
+                <p className="text-[14px] font-medium text-[#333333] truncate">
+                  {typeof value === 'string' ? value.split('/').pop()?.split('?')[0] : value.name}
                 </p>
+                {typeof value !== 'string' && (
+                  <p className="text-[12px] text-[#999999]">
+                    {(value.size / 1024 / 1024).toFixed(2)} MB
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              {progress === 100 && <CheckCircle2 className="h-5 w-5 text-[#48BB78]" />}
-              {progress === 100 && value && (
+              {(progress === 100 || typeof value === 'string') && (
+                <CheckCircle2 className="h-5 w-5 text-[#48BB78]" />
+              )}
+              {(progress === 100 || typeof value === 'string') && value && (
                 <button
                   type="button"
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    const url = URL.createObjectURL(value)
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = value.name
-                    document.body.appendChild(a)
-                    a.click()
-                    document.body.removeChild(a)
-                    URL.revokeObjectURL(url)
+                    if (typeof value === 'string') {
+                      window.open(value, '_blank')
+                    } else {
+                      const url = URL.createObjectURL(value)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = value.name
+                      document.body.appendChild(a)
+                      a.click()
+                      document.body.removeChild(a)
+                      URL.revokeObjectURL(url)
+                    }
                   }}
                   className="text-[12px] text-[#1A3A52] hover:underline font-medium whitespace-nowrap"
-                  title="Baixar arquivo"
+                  title={typeof value === 'string' ? 'Visualizar' : 'Baixar arquivo'}
                 >
-                  Baixar
+                  {typeof value === 'string' ? 'Visualizar' : 'Baixar'}
                 </button>
               )}
               <button

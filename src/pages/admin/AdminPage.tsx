@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/use-auth'
 import { AdminDashboard } from '@/components/admin/AdminDashboard'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -6,12 +6,21 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 export default function AdminPage() {
   const { user, loading, signIn } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!loading && user && user.user_metadata?.role !== 'master') {
+      toast.error('Acesso restrito. Apenas gestor master pode acessar.')
+      navigate('/')
+    }
+  }, [user, loading, navigate])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,7 +34,7 @@ export default function AdminPage() {
     setIsSubmitting(false)
   }
 
-  if (loading) {
+  if (loading || (user && user.user_metadata?.role !== 'master')) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-4 border-[#00B4D8] border-t-transparent rounded-full" />
