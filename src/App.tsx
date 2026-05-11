@@ -7,23 +7,37 @@ import AdminPage from './pages/admin/AdminPage'
 import NotFound from './pages/NotFound'
 import Layout from './components/Layout'
 import { AuthProvider } from './hooks/use-auth'
+import { useEffect } from 'react'
+import { useConfigStore } from '@/stores/use-config-store'
 
-const App = () => (
-  <BrowserRouter future={{ v7_startTransition: false, v7_relativeSplatPath: false }}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Index />} />
-          </Route>
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </TooltipProvider>
-    </AuthProvider>
-  </BrowserRouter>
-)
+const App = () => {
+  const { fetchConfig, subscribe } = useConfigStore()
+
+  useEffect(() => {
+    fetchConfig()
+    const unsubscribe = subscribe()
+    return () => {
+      if (unsubscribe) unsubscribe()
+    }
+  }, [fetchConfig, subscribe])
+
+  return (
+    <BrowserRouter future={{ v7_startTransition: false, v7_relativeSplatPath: false }}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Index />} />
+            </Route>
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </TooltipProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  )
+}
 
 export default App

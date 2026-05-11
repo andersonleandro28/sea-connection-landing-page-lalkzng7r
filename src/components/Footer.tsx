@@ -1,6 +1,9 @@
 import { Facebook, Instagram, Linkedin, Twitter } from 'lucide-react'
+import { useConfigStore } from '@/stores/use-config-store'
 
 export function Footer() {
+  const { config } = useConfigStore()
+
   return (
     <footer
       className="bg-[#1A3A52] text-[#FFFFFF] animate-fade-in opacity-0"
@@ -21,6 +24,9 @@ export function Footer() {
               Receba pagamentos de forma simples e rápida
             </p>
             <p className="text-[#FFFFFF]/80 text-[14px]">Operando desde 2019</p>
+            {config?.endereco_empresa && (
+              <p className="text-[#FFFFFF]/80 text-[14px] mt-2">{config.endereco_empresa}</p>
+            )}
           </div>
 
           <div className="space-y-[16px]">
@@ -52,30 +58,40 @@ export function Footer() {
               Suporte
             </h4>
             <ul className="space-y-[12px]">
-              <li>
-                <a
-                  href="mailto:contato@seaconnection.com.br"
-                  className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
-                >
-                  contato@seaconnection.com.br
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
-                >
-                  WhatsApp
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
-                >
-                  FAQ
-                </a>
-              </li>
+              {config?.email_contato && (
+                <li>
+                  <a
+                    href={`mailto:${config.email_contato}`}
+                    className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+                  >
+                    {config.email_contato}
+                  </a>
+                </li>
+              )}
+              {config?.whatsapp_numero && (
+                <li>
+                  <a
+                    href={`https://wa.me/${config.whatsapp_numero.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+                  >
+                    WhatsApp
+                  </a>
+                </li>
+              )}
+              {config?.faq_documento_url && (
+                <li>
+                  <a
+                    href={config.faq_documento_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+                  >
+                    FAQ
+                  </a>
+                </li>
+              )}
               <li>
                 <a
                   href="#"
@@ -92,30 +108,46 @@ export function Footer() {
               Redes Sociais
             </h4>
             <div className="flex gap-[16px]">
-              <a
-                href="#"
-                className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
+              {config?.instagram_url && (
+                <a
+                  href={config.instagram_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                >
+                  <Instagram className="h-5 w-5" />
+                </a>
+              )}
+              {config?.linkedin_url && (
+                <a
+                  href={config.linkedin_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              )}
+              {config?.facebook_url && (
+                <a
+                  href={config.facebook_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                >
+                  <Facebook className="h-5 w-5" />
+                </a>
+              )}
+              {config?.twitter_url && (
+                <a
+                  href={config.twitter_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                >
+                  <Twitter className="h-5 w-5" />
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -125,18 +157,26 @@ export function Footer() {
             © 2019-2026 Sea Connection. Todos os direitos reservados.
           </p>
           <div className="flex flex-wrap justify-center gap-[24px]">
-            <a
-              href="#"
-              className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
-            >
-              Privacidade
-            </a>
-            <a
-              href="#"
-              className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
-            >
-              Termos de Uso
-            </a>
+            {config?.privacidade_documento_url && (
+              <a
+                href={config.privacidade_documento_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+              >
+                Privacidade
+              </a>
+            )}
+            {config?.termos_documento_url && (
+              <a
+                href={config.termos_documento_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+              >
+                Termos de Uso
+              </a>
+            )}
             <a
               href="#"
               className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
