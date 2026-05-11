@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import logoUrl from '@/assets/sea-connection-investimentos-s.a.ab60f.png'
+import useRegistrationStore from '@/stores/use-registration-store'
 
 export function Header() {
-  const scrollToForm = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
-    e.preventDefault()
-    document.getElementById('cadastro')?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const { open } = useRegistrationStore()
 
   return (
     <header className="sticky top-0 left-0 right-0 z-50 bg-white shadow-subtle transition-all">
@@ -56,7 +54,7 @@ export function Header() {
           </Button>
           <Button
             className="bg-[#1A3A52] text-white hover:bg-[#1A3A52]/90 hover:shadow-medium hover:scale-105 transition-all duration-300 shadow-sm h-[48px] px-[32px] rounded-[8px]"
-            onClick={scrollToForm as any}
+            onClick={open}
           >
             Criar Conta
           </Button>

@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
 import { CheckCircle2, TrendingUp, ShieldCheck } from 'lucide-react'
+import useRegistrationStore from '@/stores/use-registration-store'
 
 export function Hero() {
   const [offsetY, setOffsetY] = useState(0)
+  const { open } = useRegistrationStore()
 
   useEffect(() => {
     let timeoutId: number
@@ -16,10 +18,6 @@ export function Hero() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const scrollToForm = () => {
-    document.getElementById('cadastro')?.scrollIntoView({ behavior: 'smooth' })
-  }
 
   const scrollToNext = () => {
     document.getElementById('diferenciais')?.scrollIntoView({ behavior: 'smooth' })
@@ -61,7 +59,7 @@ export function Hero() {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
               <Button
                 className="w-full sm:w-auto h-14 px-8 rounded-xl bg-[#1A3A52] hover:bg-[#1A3A52]/90 text-white shadow-lg shadow-[#1A3A52]/20 hover:-translate-y-1 transition-all duration-300 text-base font-semibold"
-                onClick={scrollToForm}
+                onClick={open}
               >
                 Abra sua conta grátis
               </Button>

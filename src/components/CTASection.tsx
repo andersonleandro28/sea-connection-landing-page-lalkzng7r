@@ -1,12 +1,8 @@
 import { Button } from '@/components/ui/button'
+import useRegistrationStore from '@/stores/use-registration-store'
 
 export function CTASection() {
-  const scrollToCadastro = () => {
-    const el = document.getElementById('cadastro')
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
+  const { open } = useRegistrationStore()
 
   return (
     <section className="section-padding px-4 bg-[#FFFFFF] text-center border-t border-[#E0E0E0]">
@@ -21,7 +17,7 @@ export function CTASection() {
           </p>
         </div>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-[16px] pt-4">
-          <Button size="lg" onClick={scrollToCadastro} className="w-full sm:w-auto">
+          <Button size="lg" onClick={open} className="w-full sm:w-auto">
             Criar Conta Agora
           </Button>
           <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">

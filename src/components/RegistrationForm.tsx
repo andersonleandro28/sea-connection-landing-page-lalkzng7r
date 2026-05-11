@@ -4,12 +4,19 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog'
 import { useToast } from '@/hooks/use-toast'
 import { isValidCPF, isValidCNPJ, isAdult } from '@/lib/validators'
 import { PFFields } from './forms/PFFields'
 import { PJFields } from './forms/PJFields'
 import { cn } from '@/lib/utils'
+import useRegistrationStore from '@/stores/use-registration-store'
 
 const baseSchema = {
   email: z.string().email('Email inválido'),
@@ -67,6 +74,7 @@ const formSchema = z.discriminatedUnion('type', [pfSchema, pjSchema])
 type FormValues = z.infer<typeof formSchema>
 
 export function RegistrationForm() {
+  const { isOpen, close } = useRegistrationStore()
   const [isSuccess, setIsSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
@@ -120,107 +128,106 @@ export function RegistrationForm() {
     }
   }
 
-  const resetForm = () => {
-    setIsSuccess(false)
-    form.reset({ type: 'PF' } as any)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  if (isSuccess) {
-    return (
-      <Card
-        className="w-full max-w-2xl mx-auto border-none shadow-xl bg-white animate-slide-up opacity-0"
-        style={{ animationFillMode: 'forwards' }}
-      >
-        <CardContent className="flex flex-col items-center text-center p-[40px] md:p-[80px] space-y-6">
-          <div className="h-24 w-24 bg-[#48BB78]/10 rounded-full flex items-center justify-center">
-            <CheckCircle2 className="h-12 w-12 text-[#48BB78]" />
-          </div>
-          <div className="space-y-2">
-            <h2 className="text-[32px] font-bold text-[#1A3A52]">
-              Pré-cadastro recebido com sucesso!
-            </h2>
-            <p className="text-[16px] text-[#333333] max-w-md mx-auto">
-              Obrigado por se cadastrar. Nossa equipe analisará seus dados e entrará em contato em
-              até 24 horas via email ou WhatsApp.
-            </p>
-          </div>
-          <Button onClick={resetForm} className="mt-[24px]">
-            Voltar para home
-          </Button>
-        </CardContent>
-      </Card>
-    )
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      close()
+      setTimeout(() => {
+        setIsSuccess(false)
+        form.reset({ type: 'PF' } as any)
+      }, 300)
+    }
   }
 
   return (
-    <Card
-      id="cadastro"
-      className="w-full max-w-4xl mx-auto shadow-medium border border-[#E0E0E0] bg-[#FFFFFF] scroll-mt-24 px-[30px] md:px-[60px] py-[40px] md:py-[80px] rounded-[16px]"
-    >
-      <div className="text-center pb-[32px]">
-        <h2 className="text-[28px] md:text-[36px] font-bold text-[#1A3A52] mb-[8px]">
-          Comece sua jornada com Sea Connection
-        </h2>
-        <p className="text-[16px] text-[#333333] max-w-xl mx-auto">
-          Preencha o formulário abaixo. Nossa equipe fará a análise e entrará em contato em até 24
-          horas.
-        </p>
-
-        <div className="pt-8 flex justify-center">
-          <div className="inline-flex bg-[#F5F5F5] p-[4px] rounded-[8px] h-[44px] transition-all duration-200">
-            <button
-              type="button"
-              onClick={() => handleTypeChange('PF')}
-              className={cn(
-                'px-8 h-full flex items-center justify-center text-[14px] font-bold rounded-[8px] transition-all duration-200',
-                formType === 'PF'
-                  ? 'bg-[#00B4D8] text-white shadow-sm'
-                  : 'bg-transparent text-[#666666] hover:text-[#333333]',
-              )}
-            >
-              Pessoa Física
-            </button>
-            <button
-              type="button"
-              onClick={() => handleTypeChange('PJ')}
-              className={cn(
-                'px-8 h-full flex items-center justify-center text-[14px] font-bold rounded-[8px] transition-all duration-200',
-                formType === 'PJ'
-                  ? 'bg-[#00B4D8] text-white shadow-sm'
-                  : 'bg-transparent text-[#666666] hover:text-[#333333]',
-              )}
-            >
-              Pessoa Jurídica
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="pt-8">
-        <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-[24px]">
-            {formType === 'PF' ? <PFFields /> : <PJFields />}
-
-            <div className="pt-[32px] border-t border-[#E0E0E0] flex justify-end">
-              <Button
-                type="submit"
-                className="w-full md:w-auto h-[48px] px-[32px] rounded-[8px] bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white hover:shadow-medium hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none"
-                disabled={!form.formState.isValid || isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Enviando...
-                  </>
-                ) : (
-                  'Enviar Pré-Cadastro'
-                )}
-              </Button>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+      <DialogContent className="max-w-[95vw] md:max-w-4xl max-h-[90vh] overflow-y-auto p-[24px] md:p-[40px] bg-white rounded-[16px] shadow-2xl border-none">
+        {isSuccess ? (
+          <div className="flex flex-col items-center text-center p-[20px] md:p-[40px] space-y-6 animate-in fade-in zoom-in duration-500">
+            <div className="h-24 w-24 bg-[#48BB78]/10 rounded-full flex items-center justify-center">
+              <CheckCircle2 className="h-12 w-12 text-[#48BB78]" />
             </div>
-          </form>
-        </FormProvider>
-      </div>
-    </Card>
+            <div className="space-y-2">
+              <DialogTitle className="text-[28px] md:text-[32px] font-bold text-[#1A3A52]">
+                Pré-cadastro recebido com sucesso!
+              </DialogTitle>
+              <DialogDescription className="text-[16px] text-[#333333] max-w-md mx-auto">
+                Obrigado por se cadastrar. Nossa equipe analisará seus dados e entrará em contato em
+                até 24 horas via email ou WhatsApp.
+              </DialogDescription>
+            </div>
+            <Button
+              onClick={() => handleOpenChange(false)}
+              className="mt-[24px] h-[48px] px-8 rounded-[8px]"
+            >
+              Voltar para home
+            </Button>
+          </div>
+        ) : (
+          <>
+            <DialogHeader className="text-center pb-[24px] space-y-4">
+              <DialogTitle className="text-[24px] md:text-[32px] font-bold text-[#1A3A52]">
+                Comece sua jornada com Sea Connection
+              </DialogTitle>
+              <DialogDescription className="text-[14px] md:text-[16px] text-[#333333] max-w-xl mx-auto">
+                Preencha o formulário abaixo. Nossa equipe fará a análise e entrará em contato em
+                até 24 horas.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="flex justify-center mb-8">
+              <div className="inline-flex bg-[#F5F5F5] p-[4px] rounded-[8px] h-[44px] transition-all duration-200">
+                <button
+                  type="button"
+                  onClick={() => handleTypeChange('PF')}
+                  className={cn(
+                    'px-6 md:px-8 h-full flex items-center justify-center text-[13px] md:text-[14px] font-bold rounded-[8px] transition-all duration-200',
+                    formType === 'PF'
+                      ? 'bg-[#00B4D8] text-white shadow-sm'
+                      : 'bg-transparent text-[#666666] hover:text-[#333333]',
+                  )}
+                >
+                  Pessoa Física
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleTypeChange('PJ')}
+                  className={cn(
+                    'px-6 md:px-8 h-full flex items-center justify-center text-[13px] md:text-[14px] font-bold rounded-[8px] transition-all duration-200',
+                    formType === 'PJ'
+                      ? 'bg-[#00B4D8] text-white shadow-sm'
+                      : 'bg-transparent text-[#666666] hover:text-[#333333]',
+                  )}
+                >
+                  Pessoa Jurídica
+                </button>
+              </div>
+            </div>
+
+            <FormProvider {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-[24px]">
+                {formType === 'PF' ? <PFFields /> : <PJFields />}
+
+                <div className="pt-[32px] border-t border-[#E0E0E0] flex justify-end">
+                  <Button
+                    type="submit"
+                    className="w-full md:w-auto h-[48px] px-[32px] rounded-[8px] bg-[#00B4D8] hover:bg-[#00B4D8]/90 text-white hover:shadow-medium hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none"
+                    disabled={!form.formState.isValid || isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      'Enviar Pré-Cadastro'
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </FormProvider>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   )
 }

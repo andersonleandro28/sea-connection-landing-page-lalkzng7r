@@ -12,14 +12,8 @@ export default function Index() {
       <Stats />
       <Products />
       <Features />
-
-      <section className="section-padding px-4 bg-[#F5F5F5]">
-        <div className="container mx-auto">
-          <RegistrationForm />
-        </div>
-      </section>
-
       <CTASection />
+      <RegistrationForm />
     </div>
   )
 }
