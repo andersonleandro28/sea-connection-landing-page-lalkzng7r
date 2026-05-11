@@ -34,7 +34,7 @@ export function Footer() {
             ) : config?.endereco_empresa ? (
               <div className="flex items-start gap-2 text-[#FFFFFF]/80 mt-2">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                <p className="text-[14px]">{config.endereco_empresa}</p>
+                <p className="text-[14px] text-[#FFFFFF]/80">{config.endereco_empresa}</p>
               </div>
             ) : null}
           </div>
