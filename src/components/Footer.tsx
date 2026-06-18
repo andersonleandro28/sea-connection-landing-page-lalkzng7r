@@ -1,6 +1,7 @@
 import { Facebook, Instagram, Linkedin, Twitter, Mail, MessageCircle, MapPin } from 'lucide-react'
 import { useConfigStore } from '@/stores/use-config-store'
 import { Skeleton } from '@/components/ui/skeleton'
+import logoUrl from '@/assets/sea-connection-investimentos-s.a.ab60f.png'
 
 export function Footer() {
   const { config, loading } = useConfigStore()
@@ -14,11 +15,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[40px]">
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-4">
-              <img
-                src="https://img.usecurling.com/i?q=waves&color=white&shape=fill"
-                alt="Sea Connection Logo White"
-                className="h-8 w-8 object-contain"
-              />
+              <img src={logoUrl} alt="Sea Connection Logo" className="h-8 w-auto object-contain" />
               <span className="font-bold text-[20px]">Sea Connection</span>
             </div>
             <p className="text-[#FFFFFF]/80 text-[14px] leading-relaxed">
