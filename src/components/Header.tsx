@@ -59,6 +59,12 @@ export function Header() {
               Diferenciais
             </a>
             <a
+              href="#depoimentos"
+              className="hover:text-[#00B4D8] transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-full px-2"
+            >
+              Clientes
+            </a>
+            <a
               href="#numeros"
               className="hover:text-[#00B4D8] transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-full px-2"
             >
@@ -133,6 +139,13 @@ export function Header() {
                 className="hover:text-[#00B4D8] py-2 px-3 rounded-lg hover:bg-slate-50 transition-colors"
               >
                 Diferenciais
+              </a>
+              <a
+                href="#depoimentos"
+                onClick={() => setMobileMenuOpen(false)}
+                className="hover:text-[#00B4D8] py-2 px-3 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                Clientes
               </a>
               <a
                 href="#numeros"

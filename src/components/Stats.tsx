@@ -93,7 +93,7 @@ export function Stats() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header - Inter style: "Join a global community of over..." */}
-        <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20 space-y-4">
+        <div className="max-w-3xl mx-auto text-center mb-14 md:mb-16 space-y-4">
           <span className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#00B4D8]">
             Solidez & Credibilidade
           </span>
@@ -105,6 +105,79 @@ export function Stats() {
             Nossa tecnologia financeira impulsiona negócios em todo o Brasil com transparência,
             taxas justas e suporte que responde rápido.
           </p>
+        </div>
+
+        {/* Humanized Banner: Real happy business owners and customers across Brazil */}
+        <div className="max-w-6xl mx-auto mb-10 rounded-3xl overflow-hidden relative shadow-lg shadow-[#1A3A52]/5 border border-slate-200/80 bg-white">
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+            {/* Real photo of happy smiling team/business people */}
+            <div className="lg:col-span-7 relative h-64 sm:h-80 w-full overflow-hidden">
+              <img
+                src="https://img.usecurling.com/p/900/500?q=happy%20smiling%20people%20team"
+                alt="Empreendedores e comerciantes brasileiros felizes comemorando resultados"
+                className="w-full h-full object-cover object-center"
+                width={900}
+                height={500}
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#1A3A52]/20 to-[#1A3A52]/80 hidden lg:block" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A3A52]/90 via-transparent to-transparent lg:hidden" />
+              <div className="absolute bottom-4 left-4 right-4 lg:hidden text-white">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#00B4D8]">
+                  Histórias Reais
+                </span>
+                <p className="text-sm font-semibold">
+                  Negócios que prosperam com apoio e tecnologia transparente.
+                </p>
+              </div>
+            </div>
+
+            {/* Content next to photo */}
+            <div className="lg:col-span-5 p-8 lg:p-10 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00B4D8]/10 text-[#00B4D8] text-xs font-bold">
+                <span className="w-2 h-2 rounded-full bg-[#00B4D8]" />
+                <span>Pessoas no Centro de Tudo</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#1A3A52] tracking-tight">
+                Mais do que números, histórias de sucesso.
+              </h3>
+              <p className="text-sm sm:text-base text-[#4A5568] leading-relaxed">
+                De pequenos lojistas a grandes redes de varejo, conectamos quem vende a quem compra
+                com a energia, alegria e proximidade que só o empreendedor brasileiro tem.
+              </p>
+              <div className="pt-2 flex items-center gap-4 text-xs font-semibold text-[#1A3A52]">
+                <div className="flex -space-x-2">
+                  <img
+                    src="https://img.usecurling.com/ppl/thumbnail?gender=male&seed=15"
+                    alt="Cliente 1"
+                    className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                    width={32}
+                    height={32}
+                    loading="lazy"
+                  />
+                  <img
+                    src="https://img.usecurling.com/ppl/thumbnail?gender=female&seed=22"
+                    alt="Cliente 2"
+                    className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                    width={32}
+                    height={32}
+                    loading="lazy"
+                  />
+                  <img
+                    src="https://img.usecurling.com/ppl/thumbnail?gender=male&seed=68"
+                    alt="Cliente 3"
+                    className="w-8 h-8 rounded-full border-2 border-white object-cover"
+                    width={32}
+                    height={32}
+                    loading="lazy"
+                  />
+                </div>
+                <span className="text-slate-600">
+                  <strong className="text-[#1A3A52]">98% de satisfação</strong> nos atendimentos
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Big numbers grid - generous cards, rounded-3xl, friendly typography */}

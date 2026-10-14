@@ -25,6 +25,8 @@ const products = [
     icon: CreditCard,
     badge: 'Taxa reduzida',
     features: ['Débito e crédito', 'Sem aluguel abusivo', 'NFC / Aproximação'],
+    userImage: 'https://img.usecurling.com/p/400/220?q=smiling%20merchant%20payment',
+    userCaption: 'Comerciantes atendem clientes com rapidez no balcão',
   },
   {
     id: 'pix',
@@ -35,6 +37,8 @@ const products = [
     icon: QrCode,
     badge: 'Disponível 24/7',
     features: ['Liquidação no segundo', 'Chave personalizada', 'QR Code dinâmico'],
+    userImage: 'https://img.usecurling.com/p/400/220?q=happy%20person%20phone%20pix',
+    userCaption: 'Clientes pagam em segundos direto pelo celular',
   },
   {
     id: 'boleto',
@@ -45,6 +49,8 @@ const products = [
     icon: FileText,
     badge: 'Baixa automática',
     features: ['Registro instantâneo', 'Lembretes automáticos', 'Juros configuráveis'],
+    userImage: 'https://img.usecurling.com/p/400/220?q=smiling%20office%20worker%20laptop',
+    userCaption: 'Gestão financeira prática para o time da sua empresa',
   },
   {
     id: 'link',
@@ -55,6 +61,8 @@ const products = [
     icon: LinkIcon,
     badge: 'Sem complicação',
     features: ['Compartilhe no WhatsApp', 'Parcelamento em até 12x', 'Anti-fraude integrado'],
+    userImage: 'https://img.usecurling.com/p/400/220?q=happy%20woman%20smartphone%20shopping',
+    userCaption: 'Venda conversando direto com seus clientes',
   },
   {
     id: 'conta',
@@ -65,6 +73,8 @@ const products = [
     icon: Wallet,
     badge: '100% Gratuita',
     features: ['Zero mensalidade', 'Gestão multi-usuário', 'Relatórios detalhados'],
+    userImage: 'https://img.usecurling.com/p/400/220?q=smiling%20entrepreneur%20success',
+    userCaption: 'Controle total do negócio na palma da mão',
   },
 ]
 
@@ -159,9 +169,27 @@ export function Products() {
                 >
                   {/* Card top */}
                   <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="w-14 h-14 rounded-2xl bg-white border border-slate-100 shadow-sm text-[#00B4D8] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#00B4D8] group-hover:text-white transition-all duration-300">
-                        <Icon className="w-7 h-7" strokeWidth={1.8} />
+                    {/* Real human context thumbnail */}
+                    {product.userImage && (
+                      <div className="relative h-32 w-full rounded-2xl overflow-hidden mb-5 bg-slate-100 border border-slate-100">
+                        <img
+                          src={product.userImage}
+                          alt={product.userCaption || product.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          width={400}
+                          height={220}
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#1A3A52]/60 via-transparent to-transparent" />
+                        <span className="absolute bottom-2 left-3 right-3 text-[11px] font-medium text-white/95 truncate">
+                          {product.userCaption}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 shadow-sm text-[#00B4D8] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#00B4D8] group-hover:text-white transition-all duration-300">
+                        <Icon className="w-6 h-6" strokeWidth={1.8} />
                       </div>
                       <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#00B4D8]/10 text-[#00B4D8]">
                         {product.badge}
@@ -172,11 +200,11 @@ export function Products() {
                       {product.tagline}
                     </span>
 
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-[#1A3A52] mb-3 leading-snug">
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-[#1A3A52] mb-2 leading-snug">
                       {product.title}
                     </h3>
 
-                    <p className="text-sm sm:text-base text-[#4A5568] leading-relaxed mb-6 font-normal">
+                    <p className="text-sm text-[#4A5568] leading-relaxed mb-5 font-normal">
                       {product.description}
                     </p>
 
@@ -209,20 +237,42 @@ export function Products() {
               )
             })}
 
-            {/* Extra Promo / All-in-One Card (6th slot to balance 3x2 grid gracefully) */}
+            {/* Extra Promo / All-in-One Card with Happy Advisor photo */}
             <div className="rounded-3xl p-8 bg-gradient-to-br from-[#1A3A52] via-[#1E4360] to-[#0D2434] text-white flex flex-col justify-between shadow-xl relative overflow-hidden group">
               <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-[#00B4D8]/20 blur-2xl pointer-events-none" />
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 text-[#00B4D8] flex items-center justify-center mb-6">
-                  <Sparkles className="w-7 h-7 text-[#00B4D8]" />
+                {/* Advisor photo banner */}
+                <div className="relative h-32 w-full rounded-2xl overflow-hidden mb-5 bg-white/10 border border-white/10">
+                  <img
+                    src="https://img.usecurling.com/p/400/220?q=smiling%20financial%20advisor"
+                    alt="Consultores da Sea Connection prontos para ajudar sua empresa"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    width={400}
+                    height={220}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0D2434]/80 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 left-3 right-3 text-[11px] font-medium text-white/90 truncate">
+                    Consultoria personalizada e humanizada
+                  </span>
                 </div>
+
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 text-[#00B4D8] flex items-center justify-center">
+                    <Sparkles className="w-6 h-6 text-[#00B4D8]" />
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#00B4D8]/20 text-[#00B4D8]">
+                    Personalizado
+                  </span>
+                </div>
+
                 <span className="text-xs font-bold uppercase tracking-wider text-[#00B4D8] block mb-1">
                   Sob Medida
                 </span>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-3 leading-snug">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-2 leading-snug">
                   Precisa de um pacote para sua empresa?
                 </h3>
-                <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-6 font-normal">
+                <p className="text-sm text-white/80 leading-relaxed mb-6 font-normal">
                   Montamos uma proposta personalizada com taxas especiais para o volume do seu
                   negócio. Fale com nossos consultores.
                 </p>

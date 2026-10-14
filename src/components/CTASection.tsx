@@ -30,7 +30,40 @@ export function CTASection() {
               seus resultados com a Sea Connection.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            {/* Real customer avatar recommendation row */}
+            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/15">
+              <div className="flex -space-x-2">
+                <img
+                  src="https://img.usecurling.com/ppl/thumbnail?gender=female&seed=81"
+                  alt="Cliente satisfeita"
+                  className="w-7 h-7 rounded-full object-cover border-2 border-white"
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                />
+                <img
+                  src="https://img.usecurling.com/ppl/thumbnail?gender=male&seed=92"
+                  alt="Cliente satisfeito"
+                  className="w-7 h-7 rounded-full object-cover border-2 border-white"
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                />
+                <img
+                  src="https://img.usecurling.com/ppl/thumbnail?gender=female&seed=54"
+                  alt="Cliente satisfeita"
+                  className="w-7 h-7 rounded-full object-cover border-2 border-white"
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                />
+              </div>
+              <span className="text-xs text-white/90 font-medium">
+                Junte-se a <strong className="text-[#00B4D8]">+50.000 clientes</strong> satisfeitos
+              </span>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <Button
                 size="lg"
                 onClick={open}

@@ -131,37 +131,61 @@ export function Features() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {features.map((feature, index) => {
               const Icon = feature.icon
+              // Corresponding real photo for each pillar
+              const pillarPhotos = [
+                'https://img.usecurling.com/p/600/340?q=smiling%20happy%20merchant%20shop', // Sem mensalidade
+                'https://img.usecurling.com/p/600/340?q=smiling%20support%20headset%20customer', // Atendimento humanizado
+                'https://img.usecurling.com/p/600/340?q=happy%20businessman%20mobile%20success', // Transferencias gratuitas
+              ]
+              const currentPhoto = pillarPhotos[index]
+
               return (
                 <div
                   key={index}
-                  className="group relative p-8 sm:p-10 rounded-3xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 hover:border-[#00B4D8]/50 backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#00B4D8]/10"
+                  className="group relative overflow-hidden rounded-3xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 hover:border-[#00B4D8]/50 backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#00B4D8]/10"
                 >
-                  <div>
-                    {/* Icon container */}
-                    <div className="w-16 h-16 rounded-2xl bg-[#00B4D8]/20 border border-[#00B4D8]/30 text-[#00B4D8] flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[#00B4D8] group-hover:text-[#1A3A52] transition-all duration-300">
-                      <Icon className="w-8 h-8" strokeWidth={1.8} />
+                  {/* Photo at the top of card with subtle duotone effect */}
+                  <div className="relative h-44 w-full overflow-hidden bg-slate-800">
+                    <img
+                      src={currentPhoto}
+                      alt={feature.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      width={600}
+                      height={340}
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1A3A52] via-[#1A3A52]/40 to-transparent" />
+                    <div className="absolute top-4 left-4">
+                      <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 text-[#00B4D8] flex items-center justify-center group-hover:bg-[#00B4D8] group-hover:text-[#1A3A52] transition-all duration-300 shadow-md">
+                        <Icon className="w-6 h-6" strokeWidth={2} />
+                      </div>
                     </div>
-
-                    {/* Badge */}
-                    <div className="inline-block px-3 py-1 rounded-full bg-[#00B4D8]/20 text-[#00B4D8] text-xs font-extrabold uppercase tracking-wider mb-4">
-                      {feature.highlight}
+                    <div className="absolute top-4 right-4">
+                      <span className="px-3 py-1 rounded-full bg-[#1A3A52]/90 backdrop-blur-md text-[#00B4D8] text-xs font-extrabold uppercase tracking-wider border border-white/10">
+                        {feature.highlight}
+                      </span>
                     </div>
-
-                    {/* Title */}
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-3 tracking-tight">
-                      {feature.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 font-normal">
-                      {feature.description}
-                    </p>
                   </div>
 
-                  {/* Benefit footer */}
-                  <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-semibold text-slate-400 group-hover:text-white transition-colors">
-                    <ShieldCheck className="w-4 h-4 text-[#00B4D8]" />
-                    <span>{feature.benefit}</span>
+                  {/* Body content */}
+                  <div className="p-7 sm:p-8 flex flex-col justify-between flex-grow">
+                    <div>
+                      {/* Title */}
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-3 tracking-tight">
+                        {feature.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 font-normal">
+                        {feature.description}
+                      </p>
+                    </div>
+
+                    {/* Benefit footer */}
+                    <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
+                      <ShieldCheck className="w-4 h-4 text-[#00B4D8]" />
+                      <span>{feature.benefit}</span>
+                    </div>
                   </div>
                 </div>
               )
