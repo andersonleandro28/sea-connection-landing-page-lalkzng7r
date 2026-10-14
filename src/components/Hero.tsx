@@ -147,8 +147,9 @@ export function Hero() {
 
             {/* Subheadline - Clear, friendly, comprehensive */}
             <p className="text-lg sm:text-xl text-[#4A5568] max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-              Maquininha, Pix, Boleto, Link de Pagamento e Conta Digital. Tudo o que sua empresa
-              precisa em um só lugar, com atendimento próximo e sem burocracia.
+              Tap to Pay no celular, Maquininha, Pix, Boleto, Link de Pagamento e Conta Digital.
+              Tudo o que sua empresa precisa em um só lugar, com atendimento próximo e sem
+              burocracia.
             </p>
 
             {/* Pill CTAs - Big, expressive, high contrast */}

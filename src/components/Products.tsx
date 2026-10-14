@@ -18,13 +18,18 @@ import useRegistrationStore from '@/stores/use-registration-store'
 const products = [
   {
     id: 'maquininha',
-    title: 'Maquininha de Cartão',
-    tagline: 'Presencial',
+    title: 'Maquininha & Tap to Pay',
+    tagline: 'Presencial ou no Celular',
     description:
-      'Receba no débito e crédito com as taxas mais competitivas do mercado e liquidação em 1 dia útil.',
+      'Receba no débito e crédito com maquininhas físicas ou transforme seu próprio celular em maquininha com Tap to Pay.',
     icon: CreditCard,
-    badge: 'Taxa reduzida',
-    features: ['Débito e crédito', 'Sem aluguel abusivo', 'NFC / Aproximação'],
+    badge: 'Com Tap to Pay',
+    features: [
+      'Débito e crédito',
+      'Celular vira maquininha',
+      'Sem aluguel abusivo',
+      'NFC / Aproximação',
+    ],
     userImage: 'https://img.usecurling.com/p/400/220?q=smiling%20merchant%20payment',
     userCaption: 'Comerciantes atendem clientes com rapidez no balcão',
   },

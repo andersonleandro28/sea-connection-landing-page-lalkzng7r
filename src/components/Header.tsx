@@ -45,12 +45,21 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-[15px] font-semibold text-[#1A3A52]/80">
+          <nav className="hidden md:flex items-center gap-7 text-[15px] font-semibold text-[#1A3A52]/80">
             <a
               href="#produtos"
               className="hover:text-[#00B4D8] transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-full px-2"
             >
               Soluções
+            </a>
+            <a
+              href="#tap-to-pay"
+              className="inline-flex items-center gap-1.5 hover:text-[#00B4D8] transition-colors py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-full px-2"
+            >
+              <span>Tap to Pay</span>
+              <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-[#00B4D8]/15 text-[#00B4D8] tracking-wider">
+                Novo
+              </span>
             </a>
             <a
               href="#diferenciais"
@@ -132,6 +141,16 @@ export function Header() {
                 className="hover:text-[#00B4D8] py-2 px-3 rounded-lg hover:bg-slate-50 transition-colors"
               >
                 Soluções
+              </a>
+              <a
+                href="#tap-to-pay"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between hover:text-[#00B4D8] py-2 px-3 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                <span>Tap to Pay</span>
+                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#00B4D8]/15 text-[#00B4D8]">
+                  Novo
+                </span>
               </a>
               <a
                 href="#diferenciais"
