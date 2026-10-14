@@ -1,4 +1,13 @@
-import { Facebook, Instagram, Linkedin, Twitter, Mail, MessageCircle, MapPin } from 'lucide-react'
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Twitter,
+  Mail,
+  MessageCircle,
+  MapPin,
+  ArrowUpRight,
+} from 'lucide-react'
 import { useConfigStore } from '@/stores/use-config-store'
 import { Skeleton } from '@/components/ui/skeleton'
 import logoUrl from '@/assets/sea-connection-investimentos-s.a.ab60f.png'
@@ -7,69 +16,75 @@ export function Footer() {
   const { config, loading } = useConfigStore()
 
   return (
-    <footer
-      className="bg-[#1A3A52] text-[#FFFFFF] animate-fade-in opacity-0"
-      style={{ animationFillMode: 'forwards' }}
-    >
-      <div className="container mx-auto section-padding px-[24px]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[40px]">
+    <footer className="bg-[#1A3A52] text-white relative overflow-hidden border-t border-slate-800">
+      {/* Decorative subtle glow */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-[#00B4D8]/5 blur-3xl pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 pb-12 border-b border-white/10">
+          {/* Brand info */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <img src={logoUrl} alt="Sea Connection Logo" className="h-8 w-auto object-contain" />
-              <span className="font-bold text-[20px]">Sea Connection</span>
+            <div className="flex items-center gap-3">
+              <img src={logoUrl} alt="Sea Connection Logo" className="h-10 w-auto object-contain" />
+              <span className="font-extrabold text-xl tracking-tight text-white">
+                Sea Connection
+              </span>
             </div>
-            <p className="text-[#FFFFFF]/80 text-[14px] leading-relaxed">
-              Receba pagamentos de forma simples e rápida
+            <p className="text-slate-300 text-sm leading-relaxed">
+              O ecossistema financeiro feito para conectar e acelerar negócios com simplicidade,
+              segurança e taxas transparentes.
             </p>
-            <p className="text-[#FFFFFF]/80 text-[14px]">Operando desde 2019</p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-[#00B4D8] font-semibold">
+              <span>Operando com solidez desde 2019</span>
+            </div>
 
             {loading ? (
-              <div className="flex items-start gap-2 mt-2">
-                <Skeleton className="h-4 w-4 bg-[#FFFFFF]/20 shrink-0 mt-0.5" />
-                <Skeleton className="h-4 w-48 bg-[#FFFFFF]/20" />
+              <div className="flex items-start gap-2 pt-2">
+                <Skeleton className="h-4 w-4 bg-white/20 shrink-0 mt-0.5" />
+                <Skeleton className="h-4 w-48 bg-white/20" />
               </div>
             ) : config?.endereco_empresa ? (
-              <div className="flex items-start gap-2 text-[#FFFFFF]/80 mt-2">
-                <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                <p className="text-[14px] text-[#FFFFFF]/80">{config.endereco_empresa}</p>
+              <div className="flex items-start gap-2.5 text-slate-300 text-xs sm:text-sm pt-2">
+                <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-[#00B4D8]" />
+                <p className="leading-relaxed">{config.endereco_empresa}</p>
               </div>
             ) : null}
           </div>
 
-          <div className="space-y-[16px]">
-            <h4 className="font-bold text-[14px] uppercase tracking-wider text-[#FFFFFF]">
-              Produtos
-            </h4>
-            <ul className="space-y-[12px]">
+          {/* Solutions Column */}
+          <div className="space-y-4">
+            <h4 className="font-bold text-sm uppercase tracking-wider text-white">Soluções</h4>
+            <ul className="space-y-3">
               {[
-                'Maquininha de Cartão',
-                'Boleto Bancário',
-                'Pix Copia e Cola',
-                'Link de Pagamento',
-                'Conta Digital',
+                { name: 'Maquininha de Cartão', href: '#produtos' },
+                { name: 'Boleto Bancário', href: '#produtos' },
+                { name: 'Pix Copia e Cola', href: '#produtos' },
+                { name: 'Link de Pagamento', href: '#produtos' },
+                { name: 'Conta Digital PJ/PF', href: '#produtos' },
               ].map((item) => (
-                <li key={item}>
+                <li key={item.name}>
                   <a
-                    href="#"
-                    className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm block"
+                    href={item.href}
+                    className="text-sm text-slate-300 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm block"
                   >
-                    {item}
+                    {item.name}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="space-y-[16px]">
-            <h4 className="font-bold text-[14px] uppercase tracking-wider text-[#FFFFFF]">
+          {/* Contact Column - realtime from configuracoes */}
+          <div className="space-y-4">
+            <h4 className="font-bold text-sm uppercase tracking-wider text-white" id="contato">
               Contato & Suporte
             </h4>
-            <ul className="space-y-[12px]">
+            <ul className="space-y-3">
               {loading ? (
                 <>
-                  <Skeleton className="h-5 w-40 bg-[#FFFFFF]/20" />
-                  <Skeleton className="h-5 w-32 bg-[#FFFFFF]/20" />
-                  <Skeleton className="h-5 w-24 bg-[#FFFFFF]/20" />
+                  <Skeleton className="h-5 w-40 bg-white/20" />
+                  <Skeleton className="h-5 w-32 bg-white/20" />
+                  <Skeleton className="h-5 w-24 bg-white/20" />
                 </>
               ) : (
                 <>
@@ -77,10 +92,10 @@ export function Footer() {
                     <li>
                       <a
                         href={`mailto:${config.email_contato}`}
-                        className="flex items-center gap-2 text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+                        className="flex items-center gap-2.5 text-sm text-slate-300 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
                       >
-                        <Mail className="h-4 w-4 shrink-0" />
-                        {config.email_contato}
+                        <Mail className="h-4 w-4 shrink-0 text-[#00B4D8]" />
+                        <span>{config.email_contato}</span>
                       </a>
                     </li>
                   )}
@@ -90,10 +105,10 @@ export function Footer() {
                         href={`https://wa.me/${config.whatsapp_numero.replace(/\D/g, '')}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+                        className="flex items-center gap-2.5 text-sm text-slate-300 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
                       >
-                        <MessageCircle className="h-4 w-4 shrink-0" />
-                        WhatsApp
+                        <MessageCircle className="h-4 w-4 shrink-0 text-[#00B4D8]" />
+                        <span>WhatsApp Oficial</span>
                       </a>
                     </li>
                   )}
@@ -103,18 +118,19 @@ export function Footer() {
                         href={config.faq_documento_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm block"
+                        className="text-sm text-slate-300 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm flex items-center gap-1.5"
                       >
-                        FAQ
+                        <span>Central de Ajuda / FAQ</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
                       </a>
                     </li>
                   )}
                   <li>
                     <a
-                      href="#"
-                      className="text-[14px] text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm block"
+                      href="#diferenciais"
+                      className="text-sm text-slate-300 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm block"
                     >
-                      Documentação
+                      Diferenciais & Segurança
                     </a>
                   </li>
                 </>
@@ -122,17 +138,19 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="space-y-[16px]">
-            <h4 className="font-bold text-[14px] uppercase tracking-wider text-[#FFFFFF]">
-              Redes Sociais
-            </h4>
-            <div className="flex gap-[16px] flex-wrap">
+          {/* Social Links Column */}
+          <div className="space-y-4">
+            <h4 className="font-bold text-sm uppercase tracking-wider text-white">Redes Sociais</h4>
+            <p className="text-xs text-slate-400">
+              Acompanhe novidades, atualizações de produtos e dicas para o seu negócio.
+            </p>
+            <div className="flex gap-2.5 flex-wrap pt-1">
               {loading ? (
                 <>
-                  <Skeleton className="h-7 w-7 rounded-sm bg-[#FFFFFF]/20" />
-                  <Skeleton className="h-7 w-7 rounded-sm bg-[#FFFFFF]/20" />
-                  <Skeleton className="h-7 w-7 rounded-sm bg-[#FFFFFF]/20" />
-                  <Skeleton className="h-7 w-7 rounded-sm bg-[#FFFFFF]/20" />
+                  <Skeleton className="h-10 w-10 rounded-full bg-white/20" />
+                  <Skeleton className="h-10 w-10 rounded-full bg-white/20" />
+                  <Skeleton className="h-10 w-10 rounded-full bg-white/20" />
+                  <Skeleton className="h-10 w-10 rounded-full bg-white/20" />
                 </>
               ) : (
                 <>
@@ -141,9 +159,10 @@ export function Footer() {
                       href={config.instagram_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                      aria-label="Instagram da Sea Connection"
+                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#00B4D8] hover:text-[#1A3A52] text-white flex items-center justify-center transition-all duration-200 border border-white/10"
                     >
-                      <Instagram className="h-5 w-5" />
+                      <Instagram className="h-4 w-4" />
                     </a>
                   )}
                   {config?.linkedin_url && (
@@ -151,9 +170,10 @@ export function Footer() {
                       href={config.linkedin_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                      aria-label="LinkedIn da Sea Connection"
+                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#00B4D8] hover:text-[#1A3A52] text-white flex items-center justify-center transition-all duration-200 border border-white/10"
                     >
-                      <Linkedin className="h-5 w-5" />
+                      <Linkedin className="h-4 w-4" />
                     </a>
                   )}
                   {config?.facebook_url && (
@@ -161,9 +181,10 @@ export function Footer() {
                       href={config.facebook_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                      aria-label="Facebook da Sea Connection"
+                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#00B4D8] hover:text-[#1A3A52] text-white flex items-center justify-center transition-all duration-200 border border-white/10"
                     >
-                      <Facebook className="h-5 w-5" />
+                      <Facebook className="h-4 w-4" />
                     </a>
                   )}
                   {config?.twitter_url && (
@@ -171,9 +192,10 @@ export function Footer() {
                       href={config.twitter_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#FFFFFF]/80 hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm p-1"
+                      aria-label="Twitter da Sea Connection"
+                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#00B4D8] hover:text-[#1A3A52] text-white flex items-center justify-center transition-all duration-200 border border-white/10"
                     >
-                      <Twitter className="h-5 w-5" />
+                      <Twitter className="h-4 w-4" />
                     </a>
                   )}
                 </>
@@ -182,15 +204,18 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-[#444444] pt-[32px] mt-[40px] flex flex-col md:flex-row items-center justify-between gap-[16px]">
-          <p className="text-[#FFFFFF]/80 text-[14px] text-center md:text-left">
-            © {new Date().getFullYear()} Sea Connection. Todos os direitos reservados.
+        {/* Bottom copyright and legal document links */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <p className="text-center md:text-left">
+            © {new Date().getFullYear()} Sea Connection Investimentos S.A. Todos os direitos
+            reservados.
           </p>
-          <div className="flex flex-wrap justify-center gap-[24px]">
+
+          <div className="flex flex-wrap justify-center gap-6">
             {loading ? (
               <>
-                <Skeleton className="h-5 w-24 bg-[#FFFFFF]/20" />
-                <Skeleton className="h-5 w-24 bg-[#FFFFFF]/20" />
+                <Skeleton className="h-4 w-20 bg-white/20" />
+                <Skeleton className="h-4 w-20 bg-white/20" />
               </>
             ) : (
               <>
@@ -199,7 +224,7 @@ export function Footer() {
                     href={config.privacidade_documento_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+                    className="hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
                   >
                     Privacidade
                   </a>
@@ -209,7 +234,7 @@ export function Footer() {
                     href={config.termos_documento_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+                    className="hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
                   >
                     Termos de Uso
                   </a>
@@ -218,9 +243,9 @@ export function Footer() {
             )}
             <a
               href="#"
-              className="text-[#FFFFFF]/80 hover:text-[#00B4D8] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
+              className="hover:text-[#00B4D8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00B4D8] rounded-sm"
             >
-              Cookies
+              Políticas de Cookies
             </a>
           </div>
         </div>

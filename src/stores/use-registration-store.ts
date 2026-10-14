@@ -32,7 +32,10 @@ export default function useRegistrationStore() {
   const [isOpen, setIsOpen] = useState(store.isOpen)
 
   useEffect(() => {
-    return store.subscribe(() => setIsOpen(store.isOpen))
+    const unsub = store.subscribe(() => setIsOpen(store.isOpen))
+    return () => {
+      unsub()
+    }
   }, [])
 
   return {
